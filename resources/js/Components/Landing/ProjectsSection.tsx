@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ExternalLink, Code2 } from 'lucide-react';
 
 interface Project {
@@ -19,59 +19,53 @@ interface ProjectsSectionProps {
 function ProjectCard({
     project,
     index,
-    progress,
     totalCards,
 }: {
     project: Project;
     index: number;
-    progress: number;
     totalCards: number;
 }) {
-    const cardOffset = index / totalCards;
-    const nextCardOffset = (index + 1) / totalCards;
+    const cardRef = useRef<HTMLDivElement>(null);
 
-    // Calculate visibility and transform based on scroll progress
-    const isActive = progress >= cardOffset && progress < nextCardOffset;
-    const isPast = progress >= nextCardOffset;
+    const { scrollYProgress } = useScroll({
+        target: cardRef,
+        offset: ['start end', 'start start'],
+    });
 
-    // Scale down as card goes to back
-    const scale = isPast ? 0.9 - (index * 0.02) : 1;
-
-    // Move up and back when stacking
-    const yOffset = isPast ? -30 * (totalCards - index - 1) : 0;
+    const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.8, 1]);
 
     return (
         <motion.div
-            className="absolute inset-x-4 top-1/2 h-auto max-w-5xl -translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2"
+            ref={cardRef}
+            className="sticky top-24 lg:top-32"
             style={{
-                zIndex: totalCards - index,
-            }}
-            animate={{
+                zIndex: index + 1,
                 scale,
-                y: yOffset,
-                opacity: isPast ? 0.6 : 1,
+                opacity,
             }}
-            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
             <div
-                className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/80 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 sm:rounded-3xl"
+                className="relative mx-auto max-w-5xl overflow-hidden rounded-2xl border border-border bg-card sm:rounded-3xl"
                 style={{
-                    boxShadow: isActive
-                        ? `0 25px 100px -20px ${project.color}40, 0 0 60px -30px ${project.color}60`
-                        : 'none',
+                    boxShadow: `0 25px 100px -20px ${project.color}40, 0 0 60px -30px ${project.color}60`,
+                    marginTop: index === 0 ? 0 : -80,
                 }}
             >
+                {/* Solid Background - This prevents text bleed through */}
+                <div className="absolute inset-0 bg-card" />
+
                 {/* Card Background Gradient */}
                 <div
-                    className="pointer-events-none absolute inset-0 opacity-20"
+                    className="pointer-events-none absolute inset-0 opacity-30"
                     style={{
-                        background: `linear-gradient(135deg, ${project.color}20, transparent 50%)`,
+                        background: `linear-gradient(135deg, ${project.color}30, transparent 60%)`,
                     }}
                 />
 
-                <div className="flex flex-col lg:flex-row">
+                <div className="relative flex flex-col lg:flex-row">
                     {/* Mockup Image Area */}
-                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-muted/50 to-background lg:aspect-auto lg:w-1/2">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-muted/50 to-background lg:aspect-auto lg:min-h-[400px] lg:w-1/2">
                         {/* Placeholder Mockup Frame */}
                         <div className="absolute inset-4 flex items-center justify-center sm:inset-8">
                             <div className="relative w-full max-w-md">
@@ -88,7 +82,7 @@ function ProjectCard({
                                         <div className="absolute inset-0 bg-grid-sm opacity-30" />
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <div
-                                                className="text-4xl font-bold uppercase tracking-widest opacity-10 sm:text-6xl"
+                                                className="text-4xl font-bold uppercase tracking-widest opacity-20 sm:text-6xl"
                                                 style={{ color: project.color }}
                                             >
                                                 {project.title.charAt(0)}
@@ -103,8 +97,8 @@ function ProjectCard({
                                         </div>
 
                                         <div className="absolute bottom-4 left-4 right-4 space-y-2 sm:bottom-6 sm:left-6 sm:right-6">
-                                            <div className="h-2 w-3/4 rounded bg-foreground/5" />
-                                            <div className="h-2 w-1/2 rounded bg-foreground/5" />
+                                            <div className="h-2 w-3/4 rounded bg-foreground/10" />
+                                            <div className="h-2 w-1/2 rounded bg-foreground/10" />
                                         </div>
                                     </div>
                                 </div>
@@ -117,12 +111,12 @@ function ProjectCard({
                         {/* Decorative Glow */}
                         <div
                             className="pointer-events-none absolute bottom-0 left-1/2 h-40 w-40 -translate-x-1/2 translate-y-1/2 rounded-full blur-3xl sm:h-60 sm:w-60"
-                            style={{ backgroundColor: `${project.color}20` }}
+                            style={{ backgroundColor: `${project.color}30` }}
                         />
                     </div>
 
                     {/* Content Area */}
-                    <div className="flex flex-col justify-center p-6 sm:p-8 lg:w-1/2 lg:p-12">
+                    <div className="relative flex flex-col justify-center bg-card p-6 sm:p-8 lg:w-1/2 lg:p-12">
                         {/* Category */}
                         <span
                             className="mb-3 inline-block font-mono text-xs uppercase tracking-widest sm:mb-4"
@@ -137,7 +131,7 @@ function ProjectCard({
                         </h3>
 
                         {/* Description */}
-                        <p className="mb-6 font-mono text-xs text-muted-foreground sm:mb-8 sm:text-sm">
+                        <p className="mb-6 font-mono text-xs leading-relaxed text-muted-foreground sm:mb-8 sm:text-sm">
                             {project.description}
                         </p>
 
@@ -151,7 +145,7 @@ function ProjectCard({
                                 {project.techStack.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="rounded-full border border-border/50 bg-background/50 px-3 py-1.5 font-mono text-xs text-foreground transition-all duration-300 hover:border-primary/50"
+                                        className="rounded-full border border-border bg-background/80 px-3 py-1.5 font-mono text-xs text-foreground transition-all duration-300 hover:border-primary/50"
                                     >
                                         {tech}
                                     </span>
@@ -163,7 +157,7 @@ function ProjectCard({
                         <button
                             className="group/btn inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 font-mono text-xs uppercase tracking-wider transition-all duration-300 sm:text-sm"
                             style={{
-                                backgroundColor: `${project.color}15`,
+                                backgroundColor: `${project.color}20`,
                                 borderColor: `${project.color}50`,
                                 borderWidth: '1px',
                                 color: project.color,
@@ -189,16 +183,19 @@ function MobileProjectCard({ project }: { project: Project }) {
             className="w-[85vw] flex-shrink-0 snap-center sm:w-[70vw]"
         >
             <div
-                className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/80 backdrop-blur-xl"
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card"
                 style={{
                     boxShadow: `0 15px 60px -15px ${project.color}30`,
                 }}
             >
+                {/* Solid Background */}
+                <div className="absolute inset-0 bg-card" />
+
                 {/* Mockup */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-muted/50 to-background">
                     <div className="absolute inset-4 flex items-center justify-center">
                         <div
-                            className="text-5xl font-bold uppercase tracking-widest opacity-10"
+                            className="text-5xl font-bold uppercase tracking-widest opacity-20"
                             style={{ color: project.color }}
                         >
                             {project.title.charAt(0)}
@@ -207,7 +204,7 @@ function MobileProjectCard({ project }: { project: Project }) {
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
+                <div className="relative bg-card p-5">
                     <span
                         className="mb-2 inline-block font-mono text-xs uppercase tracking-widest"
                         style={{ color: project.color }}
@@ -217,14 +214,14 @@ function MobileProjectCard({ project }: { project: Project }) {
                     <h3 className="mb-3 text-xl font-bold uppercase tracking-tight text-foreground">
                         {project.title}
                     </h3>
-                    <p className="mb-4 font-mono text-xs text-muted-foreground line-clamp-2">
+                    <p className="mb-4 font-mono text-xs leading-relaxed text-muted-foreground line-clamp-2">
                         {project.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                         {project.techStack.slice(0, 3).map((tech) => (
                             <span
                                 key={tech}
-                                className="rounded-full border border-border/50 bg-background/50 px-2.5 py-1 font-mono text-xs text-foreground"
+                                className="rounded-full border border-border bg-background/80 px-2.5 py-1 font-mono text-xs text-foreground"
                             >
                                 {tech}
                             </span>
@@ -237,18 +234,7 @@ function MobileProjectCard({ project }: { project: Project }) {
 }
 
 export default function ProjectsSection({ projects }: ProjectsSectionProps) {
-    const containerRef = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState(false);
-    const [scrollProgress, setScrollProgress] = useState(0);
-
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ['start start', 'end end'],
-    });
-
-    useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        setScrollProgress(value);
-    });
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -260,23 +246,18 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     // Desktop: Sticky stacking layout
     if (!isMobile) {
         return (
-            <section
-                ref={containerRef}
-                className="relative bg-background"
-                style={{ height: `${100 + projects.length * 100}vh` }}
-            >
+            <section className="relative bg-background py-20 lg:py-32">
                 {/* Background */}
-                <div className="noise pointer-events-none fixed inset-0" style={{ zIndex: 0 }} />
+                <div className="noise pointer-events-none absolute inset-0" />
 
-                {/* Sticky Container */}
-                <div className="sticky top-0 h-screen overflow-hidden">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Section Header */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="absolute inset-x-0 top-12 z-20 text-center sm:top-16 lg:top-20"
+                        className="mb-16 text-center lg:mb-24"
                     >
                         <span className="mb-3 inline-block font-mono text-xs uppercase tracking-widest text-primary sm:mb-4">
                             {'// SELECTED WORKS'}
@@ -287,39 +268,19 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     </motion.div>
 
                     {/* Stacking Cards */}
-                    <div className="relative h-full pt-32 sm:pt-40">
+                    <div className="relative space-y-8">
                         {projects.map((project, index) => (
                             <ProjectCard
                                 key={project.id}
                                 project={project}
                                 index={index}
-                                progress={scrollProgress}
                                 totalCards={projects.length}
                             />
                         ))}
                     </div>
 
-                    {/* Progress Indicator */}
-                    <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-                        {projects.map((_, index) => {
-                            const cardOffset = index / projects.length;
-                            const isActive = scrollProgress >= cardOffset;
-
-                            return (
-                                <div
-                                    key={index}
-                                    className="h-1 w-8 overflow-hidden rounded-full bg-border/50"
-                                >
-                                    <motion.div
-                                        className="h-full bg-primary"
-                                        initial={{ width: 0 }}
-                                        animate={{ width: isActive ? '100%' : '0%' }}
-                                        transition={{ duration: 0.3 }}
-                                    />
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {/* Spacer for last card */}
+                    <div className="h-32 lg:h-48" />
                 </div>
             </section>
         );
