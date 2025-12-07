@@ -342,6 +342,15 @@
     }
 }
 
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.333%);
+    }
+}
+
 .animate-float {
     animation: float 6s ease-in-out infinite;
 }
@@ -352,4 +361,8 @@
 
 .animate-drift {
     animation: drift 20s ease-in-out infinite;
+}
+
+.animate-marquee {
+    animation: marquee 30s linear infinite;
 }

@@ -1,6 +1,9 @@
 import HeroSection from '@/Components/Landing/HeroSection';
 import ProjectsSection from '@/Components/Landing/ProjectsSection';
 import ServicesSection from '@/Components/Landing/ServicesSection';
+import TestimonialsSection from '@/Components/Landing/TestimonialsSection';
+import FAQSection from '@/Components/Landing/FAQSection';
+import ContactSection from '@/Components/Landing/ContactSection';
 import { Head } from '@inertiajs/react';
 
 interface Service {
@@ -23,12 +26,33 @@ interface Project {
     color: string;
 }
 
+interface Testimonial {
+    id: number;
+    name: string;
+    company: string;
+    role: string;
+    quote: string;
+    avatar: string;
+    videoThumbnail: string;
+    videoUrl: string;
+}
+
+interface FAQ {
+    id: number;
+    question: string;
+    answer: string;
+    category: string;
+    color: string;
+}
+
 interface WelcomeProps {
     services: Service[];
     projects: Project[];
+    testimonials: Testimonial[];
+    faqs: FAQ[];
 }
 
-export default function Welcome({ services, projects }: WelcomeProps) {
+export default function Welcome({ services, projects, testimonials, faqs }: WelcomeProps) {
     return (
         <>
             <Head title="PBM Agency - We Build Digital Ecosystems">
@@ -47,6 +71,9 @@ export default function Welcome({ services, projects }: WelcomeProps) {
                 <HeroSection />
                 <ServicesSection services={services} />
                 <ProjectsSection projects={projects} />
+                <TestimonialsSection testimonials={testimonials} />
+                <FAQSection faqs={faqs} />
+                <ContactSection />
             </main>
         </>
     );
