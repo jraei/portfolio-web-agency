@@ -1,7 +1,7 @@
-import { Head } from '@inertiajs/react';
 import HeroSection from '@/Components/Landing/HeroSection';
-import ServicesSection from '@/Components/Landing/ServicesSection';
 import ProjectsSection from '@/Components/Landing/ProjectsSection';
+import ServicesSection from '@/Components/Landing/ServicesSection';
+import { Head } from '@inertiajs/react';
 
 interface Service {
     id: number;
@@ -36,7 +36,11 @@ export default function Welcome({ services, projects }: WelcomeProps) {
                     name="description"
                     content="PBM Agency crafts high-conversion Landing Pages, Company Profiles, and E-Course Platforms. We build digital ecosystems that drive results."
                 />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link
+                    rel="preconnect"
+                    href="https://fonts.gstatic.com"
+                    crossOrigin="anonymous"
+                />
             </Head>
 
             <main className="relative bg-background">
