@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ExternalLink, Code2 } from 'lucide-react';
+import { Code2, ExternalLink } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Project {
     id: number;
@@ -79,10 +79,10 @@ function ProjectCard({
                                         }}
                                     >
                                         {/* Placeholder Content */}
-                                        <div className="absolute inset-0 bg-grid-sm opacity-30" />
+                                        <div className="bg-grid-sm absolute inset-0 opacity-30" />
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <div
-                                                className="text-4xl font-bold uppercase tracking-widest opacity-20 sm:text-6xl"
+                                                className="text-4xl font-bold tracking-widest uppercase opacity-20 sm:text-6xl"
                                                 style={{ color: project.color }}
                                             >
                                                 {project.title.charAt(0)}
@@ -96,7 +96,7 @@ function ProjectCard({
                                             <div className="h-2 w-2 rounded-full bg-green-500/50 sm:h-3 sm:w-3" />
                                         </div>
 
-                                        <div className="absolute bottom-4 left-4 right-4 space-y-2 sm:bottom-6 sm:left-6 sm:right-6">
+                                        <div className="absolute right-4 bottom-4 left-4 space-y-2 sm:right-6 sm:bottom-6 sm:left-6">
                                             <div className="h-2 w-3/4 rounded bg-foreground/10" />
                                             <div className="h-2 w-1/2 rounded bg-foreground/10" />
                                         </div>
@@ -119,14 +119,14 @@ function ProjectCard({
                     <div className="relative flex flex-col justify-center bg-card p-6 sm:p-8 lg:w-1/2 lg:p-12">
                         {/* Category */}
                         <span
-                            className="mb-3 inline-block font-mono text-xs uppercase tracking-widest sm:mb-4"
+                            className="mb-3 inline-block font-mono text-xs tracking-widest uppercase sm:mb-4"
                             style={{ color: project.color }}
                         >
                             {project.category}
                         </span>
 
                         {/* Title */}
-                        <h3 className="mb-4 text-2xl font-bold uppercase tracking-tight text-foreground sm:mb-6 sm:text-3xl lg:text-4xl">
+                        <h3 className="mb-4 text-2xl font-bold tracking-tight text-foreground uppercase sm:mb-6 sm:text-3xl lg:text-4xl">
                             {project.title}
                         </h3>
 
@@ -137,7 +137,7 @@ function ProjectCard({
 
                         {/* Tech Stack */}
                         <div className="mb-6 sm:mb-8">
-                            <span className="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                            <span className="mb-3 flex items-center gap-2 font-mono text-xs tracking-widest text-muted-foreground uppercase">
                                 <Code2 className="h-3 w-3" />
                                 Tech Stack
                             </span>
@@ -155,7 +155,7 @@ function ProjectCard({
 
                         {/* View Project Button */}
                         <button
-                            className="group/btn inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 font-mono text-xs uppercase tracking-wider transition-all duration-300 sm:text-sm"
+                            className="group/btn inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 sm:text-sm"
                             style={{
                                 backgroundColor: `${project.color}20`,
                                 borderColor: `${project.color}50`,
@@ -195,7 +195,7 @@ function MobileProjectCard({ project }: { project: Project }) {
                 <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-muted/50 to-background">
                     <div className="absolute inset-4 flex items-center justify-center">
                         <div
-                            className="text-5xl font-bold uppercase tracking-widest opacity-20"
+                            className="text-5xl font-bold tracking-widest uppercase opacity-20"
                             style={{ color: project.color }}
                         >
                             {project.title.charAt(0)}
@@ -206,15 +206,15 @@ function MobileProjectCard({ project }: { project: Project }) {
                 {/* Content */}
                 <div className="relative bg-card p-5">
                     <span
-                        className="mb-2 inline-block font-mono text-xs uppercase tracking-widest"
+                        className="mb-2 inline-block font-mono text-xs tracking-widest uppercase"
                         style={{ color: project.color }}
                     >
                         {project.category}
                     </span>
-                    <h3 className="mb-3 text-xl font-bold uppercase tracking-tight text-foreground">
+                    <h3 className="mb-3 text-xl font-bold tracking-tight text-foreground uppercase">
                         {project.title}
                     </h3>
-                    <p className="mb-4 font-mono text-xs leading-relaxed text-muted-foreground line-clamp-2">
+                    <p className="mb-4 line-clamp-2 font-mono text-xs leading-relaxed text-muted-foreground">
                         {project.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
@@ -259,16 +259,17 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                         transition={{ duration: 0.6 }}
                         className="mb-16 text-center lg:mb-24"
                     >
-                        <span className="mb-3 inline-block font-mono text-xs uppercase tracking-widest text-primary sm:mb-4">
+                        <span className="mb-3 inline-block font-mono text-xs tracking-widest text-primary uppercase sm:mb-4">
                             {'// SELECTED WORKS'}
                         </span>
-                        <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
-                            Featured <span className="text-gradient">Projects</span>
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl md:text-4xl lg:text-5xl">
+                            Featured{' '}
+                            <span className="text-gradient">Projects</span>
                         </h2>
                     </motion.div>
 
                     {/* Stacking Cards */}
-                    <div className="relative space-y-8">
+                    <div className="relative space-y-12">
                         {projects.map((project, index) => (
                             <ProjectCard
                                 key={project.id}
@@ -300,10 +301,10 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                 transition={{ duration: 0.6 }}
                 className="mb-10 px-4 text-center sm:mb-12"
             >
-                <span className="mb-3 inline-block font-mono text-xs uppercase tracking-widest text-primary">
+                <span className="mb-3 inline-block font-mono text-xs tracking-widest text-primary uppercase">
                     {'// SELECTED WORKS'}
                 </span>
-                <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground sm:text-3xl">
+                <h2 className="text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl">
                     Featured <span className="text-gradient">Projects</span>
                 </h2>
             </motion.div>

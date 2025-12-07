@@ -1,9 +1,9 @@
+import ContactSection from '@/Components/Landing/ContactSection';
+import FAQSection from '@/Components/Landing/FAQSection';
 import HeroSection from '@/Components/Landing/HeroSection';
 import ProjectsSection from '@/Components/Landing/ProjectsSection';
 import ServicesSection from '@/Components/Landing/ServicesSection';
 import TestimonialsSection from '@/Components/Landing/TestimonialsSection';
-import FAQSection from '@/Components/Landing/FAQSection';
-import ContactSection from '@/Components/Landing/ContactSection';
 import { Head } from '@inertiajs/react';
 
 interface Service {
@@ -52,7 +52,12 @@ interface WelcomeProps {
     faqs: FAQ[];
 }
 
-export default function Welcome({ services, projects, testimonials, faqs }: WelcomeProps) {
+export default function Welcome({
+    services,
+    projects,
+    testimonials,
+    faqs,
+}: WelcomeProps) {
     return (
         <>
             <Head title="PBM Agency - We Build Digital Ecosystems">
