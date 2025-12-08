@@ -363,7 +363,8 @@ export default function TestimonialsSection({
                     {'// CLIENT STORIES'}
                 </span>
                 <h2 className="text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl md:text-4xl lg:text-5xl">
-                    The <span className="text-gradient">Cinematic Trust</span>
+                    Stories Of{' '}
+                    <span className="text-gradient">Transformation</span>
                 </h2>
             </motion.div>
 
