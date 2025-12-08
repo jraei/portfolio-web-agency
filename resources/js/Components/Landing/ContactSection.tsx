@@ -4,21 +4,30 @@ import {
     ArrowRight,
     Building2,
     Check,
+    Code2,
     Github,
     GraduationCap,
     Instagram,
     Linkedin,
     Mail,
     MapPin,
+    MessageCircle,
     Phone,
     Rocket,
     Send,
+    ShoppingCart,
     Sparkles,
     Twitter,
 } from 'lucide-react';
 import { useState } from 'react';
 
-type ServiceType = 'landing' | 'profile' | 'ecourse' | 'custom' | null;
+type ServiceType =
+    | 'landing'
+    | 'profile'
+    | 'ecourse'
+    | 'ecommerce'
+    | 'custom'
+    | null;
 type BudgetType = 'small' | 'medium' | 'large' | null;
 
 interface FormData {
@@ -31,7 +40,8 @@ const services = [
     { id: 'landing' as const, label: 'Landing Page', icon: Rocket },
     { id: 'profile' as const, label: 'Company Profile', icon: Building2 },
     { id: 'ecourse' as const, label: 'E-Course', icon: GraduationCap },
-    { id: 'custom' as const, label: 'Custom', icon: Sparkles },
+    { id: 'ecommerce' as const, label: 'E-Commerce', icon: ShoppingCart },
+    { id: 'custom' as const, label: 'Custom App', icon: Code2 },
 ];
 
 const budgets = [
@@ -39,6 +49,9 @@ const budgets = [
     { id: 'medium' as const, label: '5-15M', description: 'Growth' },
     { id: 'large' as const, label: '> 15M', description: 'Enterprise' },
 ];
+
+// WhatsApp number - replace with actual number
+const WHATSAPP_NUMBER = '6281234567890';
 
 function StepIndicator({
     currentStep,
@@ -85,7 +98,7 @@ function ServiceStep({
             <h3 className="mb-6 text-center text-xl font-semibold text-foreground sm:text-2xl">
                 I'm interested in...
             </h3>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                 {services.map((service) => {
                     const Icon = service.icon;
                     const isSelected = selected === service.id;
@@ -94,7 +107,7 @@ function ServiceStep({
                         <motion.button
                             key={service.id}
                             onClick={() => onSelect(service.id)}
-                            className={`group relative flex flex-col items-center gap-3 rounded-xl border p-4 transition-all duration-300 sm:p-6 ${
+                            className={`group relative flex flex-col items-center gap-3 rounded-xl border p-4 transition-all duration-300 ${
                                 isSelected
                                     ? 'border-primary bg-primary/10'
                                     : 'border-border/50 bg-card/50 hover:border-border hover:bg-card'
@@ -127,7 +140,7 @@ function ServiceStep({
                                 />
                             </div>
                             <span
-                                className={`text-center font-mono text-xs tracking-wider uppercase sm:text-sm ${
+                                className={`text-center font-mono text-xs tracking-wider uppercase ${
                                     isSelected
                                         ? 'text-foreground'
                                         : 'text-muted-foreground'
@@ -244,6 +257,65 @@ function ContactStep({
     );
 }
 
+function SuccessState({ formData }: { formData: FormData }) {
+    const handleWhatsApp = () => {
+        const serviceLabel =
+            services.find((s) => s.id === formData.service)?.label || 'Project';
+        const budgetLabel =
+            budgets.find((b) => b.id === formData.budget)?.label || '';
+        const message = encodeURIComponent(
+            `Hi! I just submitted a project inquiry for a ${serviceLabel} with a budget of ${budgetLabel}. I'd love to discuss this further!`
+        );
+        window.open(
+            `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
+            '_blank'
+        );
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="py-8 text-center"
+        >
+            <motion.div
+                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/20"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                    type: 'spring',
+                    stiffness: 200,
+                    delay: 0.2,
+                }}
+            >
+                <Check className="h-10 w-10 text-primary" />
+            </motion.div>
+            <h3 className="mb-2 text-2xl font-bold text-foreground">
+                Project Submitted!
+            </h3>
+            <p className="mb-6 font-mono text-sm text-muted-foreground">
+                We'll get back to you within 24 hours.
+            </p>
+
+            {/* WhatsApp CTA */}
+            <div className="rounded-xl border border-border/50 bg-card/50 p-6">
+                <p className="mb-4 font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                    Can't wait? Let's chat now!
+                </p>
+                <motion.button
+                    onClick={handleWhatsApp}
+                    className="inline-flex items-center gap-3 rounded-full border border-green-500/50 bg-green-500/10 px-6 py-3 font-mono text-sm tracking-wider text-green-400 transition-all duration-300 hover:border-green-500 hover:bg-green-500/20"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                >
+                    <MessageCircle className="h-5 w-5" />
+                    Chat on WhatsApp Now
+                </motion.button>
+            </div>
+        </motion.div>
+    );
+}
+
 function Footer() {
     const socialLinks = [
         { icon: Github, href: '#', label: 'GitHub' },
@@ -289,11 +361,12 @@ function Footer() {
                                 'Landing Pages',
                                 'Company Profiles',
                                 'E-Course Platforms',
+                                'E-Commerce',
                                 'Custom Development',
                             ].map((item) => (
                                 <li key={item}>
                                     <a
-                                        href="#"
+                                        href="#services"
                                         className="font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
                                     >
                                         {item}
@@ -396,11 +469,9 @@ export default function ContactSection() {
         setIsSubmitted(true);
     };
 
-    // Footer height for margin
-
     return (
         <>
-            <section className="relative bg-background py-20 lg:py-32">
+            <section id="contact" className="relative bg-background py-20 lg:py-32">
                 {/* Background */}
                 <div className="noise pointer-events-none absolute inset-0" />
 
@@ -550,30 +621,7 @@ export default function ContactSection() {
                                 </div>
                             </>
                         ) : (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className="py-8 text-center"
-                            >
-                                <motion.div
-                                    className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/20"
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{
-                                        type: 'spring',
-                                        stiffness: 200,
-                                        delay: 0.2,
-                                    }}
-                                >
-                                    <Check className="h-10 w-10 text-primary" />
-                                </motion.div>
-                                <h3 className="mb-2 text-2xl font-bold text-foreground">
-                                    Project Submitted!
-                                </h3>
-                                <p className="font-mono text-sm text-muted-foreground">
-                                    We'll get back to you within 24 hours.
-                                </p>
-                            </motion.div>
+                            <SuccessState formData={formData} />
                         )}
                     </motion.div>
 

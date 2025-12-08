@@ -13,7 +13,6 @@ interface Service {
     description: string;
     icon: string;
     metrics: string[];
-    gridArea: string;
 }
 
 interface Project {
@@ -26,15 +25,21 @@ interface Project {
     color: string;
 }
 
-interface Testimonial {
+interface VideoTestimonial {
+    id: number;
+    videoThumbnail: string;
+    videoUrl: string;
+    clientName: string;
+    role: string;
+}
+
+interface QuoteTestimonial {
     id: number;
     name: string;
     company: string;
     role: string;
     quote: string;
     avatar: string;
-    videoThumbnail: string;
-    videoUrl: string;
 }
 
 interface FAQ {
@@ -48,14 +53,16 @@ interface FAQ {
 interface WelcomeProps {
     services: Service[];
     projects: Project[];
-    testimonials: Testimonial[];
+    videoTestimonials: VideoTestimonial[];
+    quoteTestimonials: QuoteTestimonial[];
     faqs: FAQ[];
 }
 
 export default function Welcome({
     services,
     projects,
-    testimonials,
+    videoTestimonials,
+    quoteTestimonials,
     faqs,
 }: WelcomeProps) {
     return (
@@ -63,7 +70,7 @@ export default function Welcome({
             <Head title="PBM Agency - We Build Digital Ecosystems">
                 <meta
                     name="description"
-                    content="PBM Agency crafts high-conversion Landing Pages, Company Profiles, and E-Course Platforms. We build digital ecosystems that drive results."
+                    content="PBM Agency crafts high-conversion Landing Pages, Company Profiles, E-Course Platforms, E-Commerce, and Custom Web Applications. We build digital ecosystems that drive results."
                 />
                 <link
                     rel="preconnect"
@@ -76,7 +83,10 @@ export default function Welcome({
                 <HeroSection />
                 <ServicesSection services={services} />
                 <ProjectsSection projects={projects} />
-                <TestimonialsSection testimonials={testimonials} />
+                <TestimonialsSection
+                    videoTestimonials={videoTestimonials}
+                    quoteTestimonials={quoteTestimonials}
+                />
                 <FAQSection faqs={faqs} />
                 <ContactSection />
             </main>

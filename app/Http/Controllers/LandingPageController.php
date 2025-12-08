@@ -17,7 +17,6 @@ class LandingPageController extends Controller
                 'description' => 'Blazing fast, conversion-optimized landing pages that turn visitors into customers. Built with performance-first architecture.',
                 'icon' => 'Rocket',
                 'metrics' => ['3.2s Load Time', '94+ PageSpeed', 'A/B Ready'],
-                'gridArea' => 'span 2 / span 2',
             ],
             [
                 'id' => 2,
@@ -26,7 +25,6 @@ class LandingPageController extends Controller
                 'description' => 'Elegant corporate websites that establish authority and trust. Your digital headquarters.',
                 'icon' => 'Building2',
                 'metrics' => ['SEO Optimized', 'CMS Integrated', 'Multi-language'],
-                'gridArea' => 'span 1 / span 1',
             ],
             [
                 'id' => 3,
@@ -35,7 +33,22 @@ class LandingPageController extends Controller
                 'description' => 'Scalable educational platforms with progress tracking, certifications, and seamless payment integration.',
                 'icon' => 'GraduationCap',
                 'metrics' => ['LMS Ready', 'Payment Gateway', 'Analytics'],
-                'gridArea' => 'span 1 / span 1',
+            ],
+            [
+                'id' => 4,
+                'title' => 'E-Commerce',
+                'subtitle' => 'Online Store',
+                'description' => 'High-performance online stores with inventory management, secure payments, and conversion optimization.',
+                'icon' => 'ShoppingCart',
+                'metrics' => ['Multi-Payment', 'Inventory Sync', 'Cart Recovery'],
+            ],
+            [
+                'id' => 5,
+                'title' => 'Custom Web App',
+                'subtitle' => 'Bespoke Solutions',
+                'description' => 'Tailored web applications built from scratch to solve your unique business challenges.',
+                'icon' => 'Code2',
+                'metrics' => ['API Integration', 'Scalable', 'Real-time'],
             ],
         ];
 
@@ -69,7 +82,38 @@ class LandingPageController extends Controller
             ],
         ];
 
-        $testimonials = [
+        $videoTestimonials = [
+            [
+                'id' => 1,
+                'videoThumbnail' => '/images/testimonials/video-1.jpg',
+                'videoUrl' => '/storage/testimonials/videos/didigrafis.mp4',
+                'clientName' => 'Sarah Chen',
+                'role' => 'CEO, Nexus Finance',
+            ],
+            [
+                'id' => 2,
+                'videoThumbnail' => '/images/testimonials/video-2.jpg',
+                'videoUrl' => '/storage/testimonials/videos/testimonial-2.mp4',
+                'clientName' => 'Marcus Rivera',
+                'role' => 'Founder, Meridian Academy',
+            ],
+            [
+                'id' => 3,
+                'videoThumbnail' => '/images/testimonials/video-3.jpg',
+                'videoUrl' => '/storage/testimonials/videos/testimonial-3.mp4',
+                'clientName' => 'Aisha Patel',
+                'role' => 'CTO, Pulse Commerce',
+            ],
+            [
+                'id' => 4,
+                'videoThumbnail' => '/images/testimonials/video-4.jpg',
+                'videoUrl' => '/storage/testimonials/videos/testimonial-4.mp4',
+                'clientName' => 'David Kim',
+                'role' => 'Product Lead, TechStart Inc',
+            ],
+        ];
+
+        $quoteTestimonials = [
             [
                 'id' => 1,
                 'name' => 'Sarah Chen',
@@ -77,8 +121,6 @@ class LandingPageController extends Controller
                 'role' => 'CEO',
                 'quote' => 'PBM transformed our vision into reality. The platform exceeded all expectations and drove 300% growth in user engagement.',
                 'avatar' => '/images/avatars/avatar-1.jpg',
-                'videoThumbnail' => '/images/testimonials/video-1.jpg',
-                'videoUrl' => '/storage/testimonials/videos/didigrafis.mp4',
             ],
             [
                 'id' => 2,
@@ -87,8 +129,6 @@ class LandingPageController extends Controller
                 'role' => 'Founder',
                 'quote' => 'Working with PBM was seamless. They understood our educational mission and built a platform that serves 50,000+ students daily.',
                 'avatar' => '/images/avatars/avatar-2.jpg',
-                'videoThumbnail' => '/images/testimonials/video-2.jpg',
-                'videoUrl' => 'https://example.com/video-2.mp4',
             ],
             [
                 'id' => 3,
@@ -97,8 +137,6 @@ class LandingPageController extends Controller
                 'role' => 'CTO',
                 'quote' => 'The technical excellence and attention to detail blew us away. Our e-commerce platform handles 10x the traffic we anticipated.',
                 'avatar' => '/images/avatars/avatar-3.jpg',
-                'videoThumbnail' => '/images/testimonials/video-3.jpg',
-                'videoUrl' => 'https://example.com/video-3.mp4',
             ],
             [
                 'id' => 4,
@@ -107,8 +145,14 @@ class LandingPageController extends Controller
                 'role' => 'Product Lead',
                 'quote' => 'From concept to launch in 8 weeks. PBM\'s velocity and quality are unmatched in the industry.',
                 'avatar' => '/images/avatars/avatar-4.jpg',
-                'videoThumbnail' => '/images/testimonials/video-4.jpg',
-                'videoUrl' => 'https://example.com/video-4.mp4',
+            ],
+            [
+                'id' => 5,
+                'name' => 'Elena Rodriguez',
+                'company' => 'HealthSync',
+                'role' => 'Founder',
+                'quote' => 'They didn\'t just build a product — they became true partners in our growth journey. Exceptional work.',
+                'avatar' => '/images/avatars/avatar-5.jpg',
             ],
         ];
 
@@ -153,7 +197,8 @@ class LandingPageController extends Controller
         return Inertia::render('welcome', [
             'services' => $services,
             'projects' => $projects,
-            'testimonials' => $testimonials,
+            'videoTestimonials' => $videoTestimonials,
+            'quoteTestimonials' => $quoteTestimonials,
             'faqs' => $faqs,
         ]);
     }
