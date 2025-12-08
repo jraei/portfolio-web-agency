@@ -147,7 +147,10 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
 
                     {/* Service 2: Company Profile */}
                     {services[1] && (
-                        <motion.div variants={itemVariants} className="lg:row-span-1">
+                        <motion.div
+                            variants={itemVariants}
+                            className="lg:row-span-1"
+                        >
                             <ServiceCard service={services[1]} size="medium" />
                         </motion.div>
                     )}
@@ -265,7 +268,7 @@ function ServiceCard({
             >
                 {/* Icon */}
                 <div
-                    className={`mb-4 inline-flex rounded-xl border border-border/50 bg-background/50 transition-all duration-300 group-hover:border-primary/50 ${isLarge ? 'p-3 sm:p-4' : 'p-2.5 sm:p-3'}`}
+                    className={`g mb-4 inline-flex rounded-xl bg-background/50 transition-all duration-300 ${isLarge ? 'p-2 sm:p-2' : 'p-1 sm:p-0.5'}`}
                 >
                     <Icon
                         className={`text-primary ${isLarge ? 'h-7 w-7 sm:h-8 sm:w-8' : 'h-5 w-5 sm:h-6 sm:w-6'}`}

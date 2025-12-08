@@ -92,20 +92,27 @@ class LandingPageController extends Controller
             ],
             [
                 'id' => 2,
+                'videoThumbnail' => '/images/testimonials/video-1.jpg',
+                'videoUrl' => '/storage/testimonials/videos/didigrafis.mp4',
+                'clientName' => 'Sarah Chen',
+                'role' => 'CEO, Nexus Finance',
+            ],
+            [
+                'id' => 3,
                 'videoThumbnail' => '/images/testimonials/video-2.jpg',
                 'videoUrl' => '/storage/testimonials/videos/testimonial-2.mp4',
                 'clientName' => 'Marcus Rivera',
                 'role' => 'Founder, Meridian Academy',
             ],
             [
-                'id' => 3,
+                'id' => 4,
                 'videoThumbnail' => '/images/testimonials/video-3.jpg',
                 'videoUrl' => '/storage/testimonials/videos/testimonial-3.mp4',
                 'clientName' => 'Aisha Patel',
                 'role' => 'CTO, Pulse Commerce',
             ],
             [
-                'id' => 4,
+                'id' => 5,
                 'videoThumbnail' => '/images/testimonials/video-4.jpg',
                 'videoUrl' => '/storage/testimonials/videos/testimonial-4.mp4',
                 'clientName' => 'David Kim',
@@ -130,30 +137,7 @@ class LandingPageController extends Controller
                 'quote' => 'Working with PBM was seamless. They understood our educational mission and built a platform that serves 50,000+ students daily.',
                 'avatar' => '/images/avatars/avatar-2.jpg',
             ],
-            [
-                'id' => 3,
-                'name' => 'Aisha Patel',
-                'company' => 'Pulse Commerce',
-                'role' => 'CTO',
-                'quote' => 'The technical excellence and attention to detail blew us away. Our e-commerce platform handles 10x the traffic we anticipated.',
-                'avatar' => '/images/avatars/avatar-3.jpg',
-            ],
-            [
-                'id' => 4,
-                'name' => 'David Kim',
-                'company' => 'TechStart Inc',
-                'role' => 'Product Lead',
-                'quote' => 'From concept to launch in 8 weeks. PBM\'s velocity and quality are unmatched in the industry.',
-                'avatar' => '/images/avatars/avatar-4.jpg',
-            ],
-            [
-                'id' => 5,
-                'name' => 'Elena Rodriguez',
-                'company' => 'HealthSync',
-                'role' => 'Founder',
-                'quote' => 'They didn\'t just build a product — they became true partners in our growth journey. Exceptional work.',
-                'avatar' => '/images/avatars/avatar-5.jpg',
-            ],
+
         ];
 
         $faqs = [

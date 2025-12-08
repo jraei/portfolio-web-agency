@@ -141,18 +141,15 @@ function VideoPlayer({
         }
     }, [isMuted]);
 
-    const handleSeek = useCallback(
-        (e: React.MouseEvent<HTMLDivElement>) => {
-            if (videoRef.current) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const percentage = x / rect.width;
-                videoRef.current.currentTime =
-                    percentage * videoRef.current.duration;
-            }
-        },
-        []
-    );
+    const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        if (videoRef.current) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            videoRef.current.currentTime =
+                percentage * videoRef.current.duration;
+        }
+    }, []);
 
     const handleFullscreen = useCallback(() => {
         if (videoRef.current) {
@@ -195,7 +192,7 @@ function VideoPlayer({
 
     return (
         <div
-            className="relative aspect-video w-full overflow-hidden rounded-lg bg-background"
+            className="relative aspect-[9/16] w-full overflow-hidden rounded-lg bg-background"
             onMouseMove={handleMouseMove}
             onMouseLeave={() => isPlaying && setShowControls(false)}
         >
@@ -335,8 +332,9 @@ export default function TestimonialsSection({
     quoteTestimonials,
 }: TestimonialsSectionProps) {
     const [hoveredId, setHoveredId] = useState<number | null>(null);
-    const [selectedVideo, setSelectedVideo] =
-        useState<VideoTestimonial | null>(null);
+    const [selectedVideo, setSelectedVideo] = useState<VideoTestimonial | null>(
+        null,
+    );
 
     // Duplicate testimonials for seamless loop
     const marqueeItems = [

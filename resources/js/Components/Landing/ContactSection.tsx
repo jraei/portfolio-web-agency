@@ -16,7 +16,6 @@ import {
     Rocket,
     Send,
     ShoppingCart,
-    Sparkles,
     Twitter,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -41,7 +40,7 @@ const services = [
     { id: 'profile' as const, label: 'Company Profile', icon: Building2 },
     { id: 'ecourse' as const, label: 'E-Course', icon: GraduationCap },
     { id: 'ecommerce' as const, label: 'E-Commerce', icon: ShoppingCart },
-    { id: 'custom' as const, label: 'Custom App', icon: Code2 },
+    { id: 'custom' as const, label: 'Custom', icon: Code2 },
 ];
 
 const budgets = [
@@ -98,7 +97,7 @@ function ServiceStep({
             <h3 className="mb-6 text-center text-xl font-semibold text-foreground sm:text-2xl">
                 I'm interested in...
             </h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {services.map((service) => {
                     const Icon = service.icon;
                     const isSelected = selected === service.id;
@@ -264,11 +263,11 @@ function SuccessState({ formData }: { formData: FormData }) {
         const budgetLabel =
             budgets.find((b) => b.id === formData.budget)?.label || '';
         const message = encodeURIComponent(
-            `Hi! I just submitted a project inquiry for a ${serviceLabel} with a budget of ${budgetLabel}. I'd love to discuss this further!`
+            `Hi! I just submitted a project inquiry for a ${serviceLabel} with a budget of ${budgetLabel}. I'd love to discuss this further!`,
         );
         window.open(
             `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
-            '_blank'
+            '_blank',
         );
     };
 
@@ -299,7 +298,7 @@ function SuccessState({ formData }: { formData: FormData }) {
 
             {/* WhatsApp CTA */}
             <div className="rounded-xl border border-border/50 bg-card/50 p-6">
-                <p className="mb-4 font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                <p className="mb-4 font-mono text-xs tracking-wider text-muted-foreground uppercase">
                     Can't wait? Let's chat now!
                 </p>
                 <motion.button
@@ -471,7 +470,10 @@ export default function ContactSection() {
 
     return (
         <>
-            <section id="contact" className="relative bg-background py-20 lg:py-32">
+            <section
+                id="contact"
+                className="relative bg-background py-20 lg:py-32"
+            >
                 {/* Background */}
                 <div className="noise pointer-events-none absolute inset-0" />
 
