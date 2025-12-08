@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
 import {
+    ArrowRight,
     BarChart3,
     Building2,
+    Code2,
     CreditCard,
     Globe,
     GraduationCap,
     LineChart,
     Rocket,
     Shield,
+    ShoppingCart,
     Zap,
     type LucideIcon,
 } from 'lucide-react';
@@ -19,7 +22,6 @@ interface Service {
     description: string;
     icon: string;
     metrics: string[];
-    gridArea: string;
 }
 
 interface ServicesSectionProps {
@@ -30,6 +32,8 @@ const iconMap: Record<string, LucideIcon> = {
     Rocket,
     Building2,
     GraduationCap,
+    ShoppingCart,
+    Code2,
 };
 
 const metricIcons: Record<string, LucideIcon> = {
@@ -42,6 +46,12 @@ const metricIcons: Record<string, LucideIcon> = {
     LMS: GraduationCap,
     Payment: CreditCard,
     Analytics: LineChart,
+    'Multi-Payment': CreditCard,
+    Inventory: ShoppingCart,
+    Cart: ShoppingCart,
+    API: Code2,
+    Scalable: Zap,
+    'Real-time': Zap,
 };
 
 function getMetricIcon(metric: string): LucideIcon {
@@ -56,24 +66,34 @@ const containerVariants = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.2,
+            staggerChildren: 0.1,
+            delayChildren: 0.1,
         },
     },
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.6 },
+        transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const },
     },
 };
 
 export default function ServicesSection({ services }: ServicesSectionProps) {
+    const scrollToContact = () => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
-        <section className="relative min-h-screen w-full overflow-hidden bg-background py-24 sm:py-32">
+        <section
+            id="services"
+            className="relative min-h-screen w-full overflow-hidden bg-background py-24 sm:py-32"
+        >
             {/* Background Elements */}
             <div className="noise pointer-events-none absolute inset-0" />
             <div className="bg-grid-sm absolute inset-0 opacity-20" />
@@ -98,148 +118,220 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                         What We <span className="text-gradient">Deliver</span>
                     </h2>
                     <p className="mx-auto max-w-2xl font-mono text-sm text-muted-foreground sm:text-base">
-                        Three core offerings. Infinite possibilities. Each
+                        Five core offerings. Infinite possibilities. Each
                         solution engineered for maximum impact and scalability.
                     </p>
                 </motion.div>
 
-                {/* Bento Grid */}
+                {/* Bento Grid - Asymmetric Layout */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: '-50px' }}
-                    className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4"
+                    className="grid auto-rows-[minmax(280px,auto)] gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3"
                 >
-                    {services.map((service, index) => {
-                        const Icon = iconMap[service.icon] || Rocket;
-                        const isLarge = index === 0;
+                    {/* Service 1: Landing Page - Large Card */}
+                    {services[0] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="md:col-span-2 lg:col-span-2 lg:row-span-1"
+                        >
+                            <ServiceCard
+                                service={services[0]}
+                                size="large"
+                                showStats
+                            />
+                        </motion.div>
+                    )}
 
-                        return (
-                            <motion.div
-                                key={service.id}
-                                variants={itemVariants}
-                                className={`group relative ${isLarge ? 'md:col-span-2 md:row-span-2' : ''}`}
-                            >
-                                <div className="glass hover:glow-sm relative h-full overflow-hidden rounded-2xl border border-border/50 bg-card/50 p-6 transition-all duration-500 hover:border-primary/50 sm:p-8">
-                                    {/* Card Background Gradient */}
-                                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    {/* Service 2: Company Profile */}
+                    {services[1] && (
+                        <motion.div variants={itemVariants} className="lg:row-span-1">
+                            <ServiceCard service={services[1]} size="medium" />
+                        </motion.div>
+                    )}
 
-                                    {/* Corner Accent */}
-                                    <div className="absolute -top-12 -right-12 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition-all duration-500 group-hover:bg-primary/20" />
+                    {/* Service 3: E-Course */}
+                    {services[2] && (
+                        <motion.div variants={itemVariants}>
+                            <ServiceCard service={services[2]} size="medium" />
+                        </motion.div>
+                    )}
 
-                                    {/* Content */}
-                                    <div className="relative z-10">
-                                        {/* Icon */}
-                                        <div className="group-hover:glow-sm mb-6 inline-flex rounded-xl border border-border/50 bg-background/50 p-3 transition-all duration-300 group-hover:border-primary/50">
-                                            <Icon
-                                                className={`${isLarge ? 'h-8 w-8' : 'h-6 w-6'} text-primary`}
-                                            />
-                                        </div>
+                    {/* Service 4: E-Commerce */}
+                    {services[3] && (
+                        <motion.div variants={itemVariants}>
+                            <ServiceCard service={services[3]} size="medium" />
+                        </motion.div>
+                    )}
 
-                                        {/* Title & Subtitle */}
-                                        <div className="mb-4">
-                                            <span className="mb-1 block font-mono text-xs tracking-widest text-primary uppercase">
-                                                {service.subtitle}
-                                            </span>
-                                            <h3
-                                                className={`font-bold tracking-tight text-foreground uppercase ${isLarge ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'}`}
-                                            >
-                                                {service.title}
-                                            </h3>
-                                        </div>
-
-                                        {/* Description */}
-                                        <p
-                                            className={`mb-6 font-mono text-muted-foreground ${isLarge ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'}`}
-                                        >
-                                            {service.description}
-                                        </p>
-
-                                        {/* Metrics */}
-                                        <div className="flex flex-wrap gap-2">
-                                            {service.metrics.map((metric) => {
-                                                const MetricIcon =
-                                                    getMetricIcon(metric);
-                                                return (
-                                                    <div
-                                                        key={metric}
-                                                        className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/50 px-3 py-1.5 transition-all duration-300 group-hover:border-primary/30"
-                                                    >
-                                                        <MetricIcon className="h-3 w-3 text-primary" />
-                                                        <span className="font-mono text-xs text-muted-foreground">
-                                                            {metric}
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-
-                                        {/* Large Card Extra Content */}
-                                        {isLarge && (
-                                            <div className="mt-8 grid grid-cols-3 gap-4">
-                                                {[
-                                                    {
-                                                        label: 'Avg. Load',
-                                                        value: '<3s',
-                                                    },
-                                                    {
-                                                        label: 'Conversion',
-                                                        value: '+40%',
-                                                    },
-                                                    {
-                                                        label: 'Uptime',
-                                                        value: '99.9%',
-                                                    },
-                                                ].map((stat) => (
-                                                    <div
-                                                        key={stat.label}
-                                                        className="text-center"
-                                                    >
-                                                        <div className="text-gradient text-2xl font-bold sm:text-3xl">
-                                                            {stat.value}
-                                                        </div>
-                                                        <div className="font-mono text-xs tracking-wider text-muted-foreground uppercase">
-                                                            {stat.label}
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Hover Border Glow */}
-                                    <div className="pointer-events-none absolute inset-0 rounded-2xl border border-primary/0 transition-all duration-500 group-hover:border-primary/30" />
-                                </div>
-                            </motion.div>
-                        );
-                    })}
+                    {/* Service 5: Custom Web App */}
+                    {services[4] && (
+                        <motion.div variants={itemVariants}>
+                            <ServiceCard service={services[4]} size="medium" />
+                        </motion.div>
+                    )}
 
                     {/* CTA Card */}
                     <motion.div
                         variants={itemVariants}
-                        className="md:col-span-2"
+                        className="md:col-span-2 lg:col-span-3"
                     >
-                        <div className="group hover:glow-sm relative h-full overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-background to-accent/10 p-6 transition-all duration-500 hover:border-primary/50 sm:p-8">
-                            <div className="flex h-full flex-col items-center justify-center text-center">
-                                <span className="mb-2 font-mono text-xs tracking-widest text-primary uppercase">
+                        <div className="group relative h-full min-h-[200px] overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-background to-accent/10 p-6 transition-all duration-500 hover:border-primary/50 sm:rounded-3xl sm:p-8">
+                            {/* Animated Background */}
+                            <div className="pointer-events-none absolute inset-0">
+                                <motion.div
+                                    className="absolute -top-20 -right-20 h-60 w-60 rounded-full bg-primary/10 blur-3xl"
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                        opacity: [0.3, 0.5, 0.3],
+                                    }}
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
+                                        ease: 'easeInOut',
+                                    }}
+                                />
+                                <motion.div
+                                    className="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-accent/10 blur-3xl"
+                                    animate={{
+                                        scale: [1.2, 1, 1.2],
+                                        opacity: [0.5, 0.3, 0.5],
+                                    }}
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
+                                        ease: 'easeInOut',
+                                    }}
+                                />
+                            </div>
+
+                            <div className="relative flex h-full flex-col items-center justify-center text-center">
+                                <span className="mb-3 font-mono text-xs tracking-widest text-primary uppercase">
                                     Ready to start?
                                 </span>
-                                <h3 className="mb-4 text-xl font-bold tracking-tight text-foreground uppercase sm:text-2xl">
+                                <h3 className="mb-4 text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl lg:text-4xl">
                                     Let's Build Something{' '}
                                     <span className="text-gradient">
                                         Extraordinary
                                     </span>
                                 </h3>
-                                <button className="inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-6 py-3 font-mono text-sm tracking-wider text-primary uppercase transition-all duration-300 hover:bg-primary hover:text-primary-foreground">
+                                <p className="mb-6 max-w-xl font-mono text-sm text-muted-foreground">
+                                    Transform your vision into a digital
+                                    masterpiece. We're ready when you are.
+                                </p>
+                                <motion.button
+                                    onClick={scrollToContact}
+                                    className="group/btn inline-flex items-center gap-3 rounded-full border border-primary bg-primary/10 px-8 py-4 font-mono text-sm tracking-wider text-primary uppercase transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
                                     Get Started
-                                    <Rocket className="h-4 w-4" />
-                                </button>
+                                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                                </motion.button>
                             </div>
                         </div>
                     </motion.div>
                 </motion.div>
             </div>
         </section>
+    );
+}
+
+function ServiceCard({
+    service,
+    size = 'medium',
+    showStats = false,
+}: {
+    service: Service;
+    size?: 'large' | 'medium';
+    showStats?: boolean;
+}) {
+    const Icon = iconMap[service.icon] || Rocket;
+    const isLarge = size === 'large';
+
+    return (
+        <div className="group relative h-full overflow-hidden rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/50 sm:rounded-3xl">
+            {/* Card Background Gradient */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+            {/* Corner Accent */}
+            <div className="absolute -top-16 -right-16 h-32 w-32 rounded-full bg-primary/10 blur-2xl transition-all duration-500 group-hover:bg-primary/20" />
+
+            {/* Content */}
+            <div
+                className={`relative z-10 flex h-full flex-col ${isLarge ? 'p-6 sm:p-8 lg:p-10' : 'p-5 sm:p-6'}`}
+            >
+                {/* Icon */}
+                <div
+                    className={`mb-4 inline-flex rounded-xl border border-border/50 bg-background/50 transition-all duration-300 group-hover:border-primary/50 ${isLarge ? 'p-3 sm:p-4' : 'p-2.5 sm:p-3'}`}
+                >
+                    <Icon
+                        className={`text-primary ${isLarge ? 'h-7 w-7 sm:h-8 sm:w-8' : 'h-5 w-5 sm:h-6 sm:w-6'}`}
+                    />
+                </div>
+
+                {/* Title & Subtitle */}
+                <div className="mb-3">
+                    <span className="mb-1 block font-mono text-xs tracking-widest text-primary uppercase">
+                        {service.subtitle}
+                    </span>
+                    <h3
+                        className={`font-bold tracking-tight text-foreground uppercase ${isLarge ? 'text-xl sm:text-2xl lg:text-3xl' : 'text-lg sm:text-xl'}`}
+                    >
+                        {service.title}
+                    </h3>
+                </div>
+
+                {/* Description */}
+                <p
+                    className={`mb-4 flex-1 font-mono text-muted-foreground ${isLarge ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'}`}
+                >
+                    {service.description}
+                </p>
+
+                {/* Metrics */}
+                <div className="flex flex-wrap gap-2">
+                    {service.metrics.map((metric) => {
+                        const MetricIcon = getMetricIcon(metric);
+                        return (
+                            <div
+                                key={metric}
+                                className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/50 px-2.5 py-1 transition-all duration-300 group-hover:border-primary/30 sm:px-3 sm:py-1.5"
+                            >
+                                <MetricIcon className="h-3 w-3 text-primary" />
+                                <span className="font-mono text-xs text-muted-foreground">
+                                    {metric}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* Large Card Stats */}
+                {showStats && (
+                    <div className="mt-6 grid grid-cols-3 gap-4 border-t border-border/30 pt-6 sm:mt-8 sm:pt-8">
+                        {[
+                            { label: 'Avg. Load', value: '<3s' },
+                            { label: 'Conversion', value: '+40%' },
+                            { label: 'Uptime', value: '99.9%' },
+                        ].map((stat) => (
+                            <div key={stat.label} className="text-center">
+                                <div className="text-gradient text-xl font-bold sm:text-2xl lg:text-3xl">
+                                    {stat.value}
+                                </div>
+                                <div className="font-mono text-xs tracking-wider text-muted-foreground uppercase">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* Hover Border Glow */}
+            <div className="pointer-events-none absolute inset-0 rounded-2xl border border-primary/0 transition-all duration-500 group-hover:border-primary/30 sm:rounded-3xl" />
+        </div>
     );
 }

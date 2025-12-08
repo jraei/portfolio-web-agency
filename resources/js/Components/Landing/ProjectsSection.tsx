@@ -32,42 +32,45 @@ function ProjectCard({
         offset: ['start end', 'start start'],
     });
 
-    const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.8, 1]);
+    const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.9, 1]);
+
+    // Calculate the top offset for stacking effect
+    const stickyTop = 100 + index * 20; // Each card stacks 20px lower
 
     return (
         <motion.div
             ref={cardRef}
-            className="sticky top-24 lg:top-32"
+            className="sticky"
             style={{
+                top: `${stickyTop}px`,
                 zIndex: index + 1,
                 scale,
                 opacity,
             }}
         >
             <div
-                className="relative mx-auto max-w-5xl overflow-hidden rounded-2xl border border-border bg-card sm:rounded-3xl"
+                className="relative mx-auto max-w-5xl overflow-hidden rounded-2xl border border-border sm:rounded-3xl"
                 style={{
-                    boxShadow: `0 25px 100px -20px ${project.color}40, 0 0 60px -30px ${project.color}60`,
-                    marginTop: index === 0 ? 0 : -80,
+                    boxShadow: `0 25px 80px -15px ${project.color}50, 0 10px 40px -20px ${project.color}40`,
                 }}
             >
-                {/* Solid Background - This prevents text bleed through */}
+                {/* Solid Background - Prevents text bleed through */}
                 <div className="absolute inset-0 bg-card" />
 
                 {/* Card Background Gradient */}
                 <div
-                    className="pointer-events-none absolute inset-0 opacity-30"
+                    className="pointer-events-none absolute inset-0 opacity-40"
                     style={{
-                        background: `linear-gradient(135deg, ${project.color}30, transparent 60%)`,
+                        background: `linear-gradient(135deg, ${project.color}25, transparent 50%, ${project.color}10)`,
                     }}
                 />
 
                 <div className="relative flex flex-col lg:flex-row">
                     {/* Mockup Image Area */}
-                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-muted/50 to-background lg:aspect-auto lg:min-h-[400px] lg:w-1/2">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-muted/50 to-background lg:aspect-auto lg:min-h-[420px] lg:w-1/2">
                         {/* Placeholder Mockup Frame */}
-                        <div className="absolute inset-4 flex items-center justify-center sm:inset-8">
+                        <div className="absolute inset-4 flex items-center justify-center sm:inset-8 lg:inset-10">
                             <div className="relative w-full max-w-md">
                                 {/* Laptop Frame */}
                                 <div className="relative rounded-t-xl bg-secondary/80 p-2 sm:rounded-t-2xl sm:p-4">
@@ -75,7 +78,7 @@ function ProjectCard({
                                     <div
                                         className="relative aspect-[16/10] overflow-hidden rounded-lg bg-background"
                                         style={{
-                                            boxShadow: `inset 0 0 40px ${project.color}10`,
+                                            boxShadow: `inset 0 0 40px ${project.color}15`,
                                         }}
                                     >
                                         {/* Placeholder Content */}
@@ -246,7 +249,10 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     // Desktop: Sticky stacking layout
     if (!isMobile) {
         return (
-            <section className="relative bg-background py-20 lg:py-32">
+            <section
+                id="projects"
+                className="relative bg-background py-24 lg:py-40"
+            >
                 {/* Background */}
                 <div className="noise pointer-events-none absolute inset-0" />
 
@@ -257,7 +263,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="mb-16 text-center lg:mb-24"
+                        className="mb-20 text-center lg:mb-32"
                     >
                         <span className="mb-3 inline-block font-mono text-xs tracking-widest text-primary uppercase sm:mb-4">
                             {'// SELECTED WORKS'}
@@ -268,20 +274,30 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                         </h2>
                     </motion.div>
 
-                    {/* Stacking Cards */}
-                    <div className="relative space-y-12">
+                    {/* Stacking Cards - Increased spacing */}
+                    <div className="relative">
                         {projects.map((project, index) => (
-                            <ProjectCard
+                            <div
                                 key={project.id}
-                                project={project}
-                                index={index}
-                                totalCards={projects.length}
-                            />
+                                className="mb-16 lg:mb-24"
+                                style={{
+                                    marginBottom:
+                                        index === projects.length - 1
+                                            ? 0
+                                            : undefined,
+                                }}
+                            >
+                                <ProjectCard
+                                    project={project}
+                                    index={index}
+                                    totalCards={projects.length}
+                                />
+                            </div>
                         ))}
                     </div>
 
-                    {/* Spacer for last card */}
-                    <div className="h-32 lg:h-48" />
+                    {/* Spacer for last card to unstick */}
+                    <div className="h-48 lg:h-64" />
                 </div>
             </section>
         );
@@ -289,7 +305,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
     // Mobile: Horizontal snap scroll
     return (
-        <section className="relative bg-background py-16 sm:py-20">
+        <section id="projects" className="relative bg-background py-16 sm:py-20">
             {/* Background */}
             <div className="noise pointer-events-none absolute inset-0" />
 
