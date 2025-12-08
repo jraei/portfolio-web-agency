@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, Quote, Volume2, VolumeX } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { motion } from 'framer-motion';
+import { Play, Quote, Volume2, VolumeX, X } from 'lucide-react';
+import { useState } from 'react';
 
 interface Testimonial {
     id: number;
@@ -82,10 +82,16 @@ function VideoCard({
             </motion.div>
 
             {/* Name Tag */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-4 pt-12">
-                <p className="font-mono text-xs text-muted-foreground">{testimonial.role}</p>
-                <p className="font-semibold text-foreground">{testimonial.name}</p>
-                <p className="font-mono text-xs text-primary">{testimonial.company}</p>
+            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-background/90 to-transparent p-4 pt-12">
+                <p className="font-mono text-xs text-muted-foreground">
+                    {testimonial.role}
+                </p>
+                <p className="font-semibold text-foreground">
+                    {testimonial.name}
+                </p>
+                <p className="font-mono text-xs text-primary">
+                    {testimonial.company}
+                </p>
             </div>
         </motion.div>
     );
@@ -111,7 +117,9 @@ function MarqueeItem({ testimonial }: { testimonial: Testimonial }) {
                     </span>
                 </div>
                 <div>
-                    <p className="text-sm font-medium text-foreground">{testimonial.name}</p>
+                    <p className="text-sm font-medium text-foreground">
+                        {testimonial.name}
+                    </p>
                     <p className="font-mono text-xs text-muted-foreground">
                         {testimonial.role}, {testimonial.company}
                     </p>
@@ -121,9 +129,13 @@ function MarqueeItem({ testimonial }: { testimonial: Testimonial }) {
     );
 }
 
-export default function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
+export default function TestimonialsSection({
+    testimonials,
+}: TestimonialsSectionProps) {
     const [hoveredId, setHoveredId] = useState<number | null>(null);
-    const [selectedVideo, setSelectedVideo] = useState<Testimonial | null>(null);
+    const [selectedVideo, setSelectedVideo] = useState<Testimonial | null>(
+        null,
+    );
     const [isMuted, setIsMuted] = useState(true);
 
     // Duplicate testimonials for seamless loop
@@ -142,10 +154,10 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
                 transition={{ duration: 0.6 }}
                 className="mb-12 px-4 text-center lg:mb-16"
             >
-                <span className="mb-3 inline-block font-mono text-xs uppercase tracking-widest text-primary sm:mb-4">
+                <span className="mb-3 inline-block font-mono text-xs tracking-widest text-primary uppercase sm:mb-4">
                     {'// CLIENT STORIES'}
                 </span>
-                <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+                <h2 className="text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl md:text-4xl lg:text-5xl">
                     The <span className="text-gradient">Cinematic Trust</span>
                 </h2>
             </motion.div>
@@ -153,8 +165,8 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
             {/* Part A: Video Testimonials */}
             <div className="relative mb-16 lg:mb-24">
                 {/* Gradient Masks */}
-                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
-                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
+                <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
+                <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
 
                 <div className="no-scrollbar flex justify-center gap-4 overflow-x-auto px-8 py-4 sm:gap-6 lg:gap-8">
                     {testimonials.map((testimonial, index) => (
@@ -162,7 +174,10 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
                             key={testimonial.id}
                             testimonial={testimonial}
                             index={index}
-                            isHovered={hoveredId !== null && hoveredId !== testimonial.id}
+                            isHovered={
+                                hoveredId !== null &&
+                                hoveredId !== testimonial.id
+                            }
                             onHover={setHoveredId}
                             onOpen={setSelectedVideo}
                         />
@@ -173,19 +188,25 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
             {/* Part B: Infinite Marquee */}
             <div className="relative">
                 {/* Gradient Masks */}
-                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
-                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
+                <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
+                <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
 
                 {/* Marquee Track */}
-                <div className="flex animate-marquee">
+                <div className="animate-marquee flex">
                     {marqueeItems.map((testimonial, index) => (
-                        <MarqueeItem key={`${testimonial.id}-${index}`} testimonial={testimonial} />
+                        <MarqueeItem
+                            key={`${testimonial.id}-${index}`}
+                            testimonial={testimonial}
+                        />
                     ))}
                 </div>
             </div>
 
             {/* Video Modal */}
-            <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
+            <Dialog
+                open={!!selectedVideo}
+                onOpenChange={() => setSelectedVideo(null)}
+            >
                 <DialogContent className="max-w-4xl border-border bg-card p-0">
                     <DialogTitle className="sr-only">
                         {selectedVideo?.name}'s Testimonial Video
@@ -201,7 +222,7 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
                             </div>
 
                             {/* Controls */}
-                            <div className="absolute bottom-4 right-4 flex gap-2">
+                            <div className="absolute right-4 bottom-4 flex gap-2">
                                 <button
                                     onClick={() => setIsMuted(!isMuted)}
                                     className="rounded-full bg-background/50 p-2 backdrop-blur-sm transition-colors hover:bg-background/80"
@@ -217,7 +238,7 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
                             {/* Close Button */}
                             <button
                                 onClick={() => setSelectedVideo(null)}
-                                className="absolute right-4 top-4 rounded-full bg-background/50 p-2 backdrop-blur-sm transition-colors hover:bg-background/80"
+                                className="absolute top-4 right-4 rounded-full bg-background/50 p-2 backdrop-blur-sm transition-colors hover:bg-background/80"
                             >
                                 <X className="h-5 w-5 text-foreground" />
                             </button>

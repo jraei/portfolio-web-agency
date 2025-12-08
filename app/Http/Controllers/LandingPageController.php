@@ -78,7 +78,7 @@ class LandingPageController extends Controller
                 'quote' => 'PBM transformed our vision into reality. The platform exceeded all expectations and drove 300% growth in user engagement.',
                 'avatar' => '/images/avatars/avatar-1.jpg',
                 'videoThumbnail' => '/images/testimonials/video-1.jpg',
-                'videoUrl' => 'https://example.com/video-1.mp4',
+                'videoUrl' => '/storage/testimonials/videos/didigrafis.mp4',
             ],
             [
                 'id' => 2,
