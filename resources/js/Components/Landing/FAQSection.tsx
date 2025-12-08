@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { useState } from 'react';
 
 interface FAQ {
     id: number;
@@ -48,7 +48,7 @@ function FAQItem({
                     <div className="flex-1">
                         {/* Category Tag */}
                         <span
-                            className="mb-2 inline-block rounded-full px-2 py-0.5 font-mono text-xs uppercase tracking-wider"
+                            className="mb-2 inline-block rounded-full px-2 py-0.5 font-mono text-xs tracking-wider uppercase"
                             style={{
                                 backgroundColor: `${faq.color}15`,
                                 color: faq.color,
@@ -114,19 +114,31 @@ function StickyVisual({ activeColor }: { activeColor: string }) {
                         className="absolute inset-0 rounded-full border-2"
                         style={{ borderColor: `${activeColor}40` }}
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: 'linear',
+                        }}
                     />
                     <motion.div
                         className="absolute inset-4 rounded-full border-2"
                         style={{ borderColor: `${activeColor}30` }}
                         animate={{ rotate: -360 }}
-                        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                        transition={{
+                            duration: 15,
+                            repeat: Infinity,
+                            ease: 'linear',
+                        }}
                     />
                     <motion.div
                         className="absolute inset-8 rounded-full border-2"
                         style={{ borderColor: `${activeColor}20` }}
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+                        transition={{
+                            duration: 10,
+                            repeat: Infinity,
+                            ease: 'linear',
+                        }}
                     />
 
                     {/* Center Icon */}
@@ -137,7 +149,10 @@ function StickyVisual({ activeColor }: { activeColor: string }) {
                             animate={{ scale: [1, 1.1, 1] }}
                             transition={{ duration: 3, repeat: Infinity }}
                         >
-                            <HelpCircle className="h-10 w-10" style={{ color: activeColor }} />
+                            <HelpCircle
+                                className="h-10 w-10"
+                                style={{ color: activeColor }}
+                            />
                         </motion.div>
                     </div>
                 </div>
@@ -151,9 +166,9 @@ function StickyVisual({ activeColor }: { activeColor: string }) {
                 />
 
                 {/* Text */}
-                <div className="absolute bottom-6 left-6 right-6 text-center">
-                    <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                        Common Questions
+                <div className="absolute right-6 bottom-6 left-6 text-center">
+                    <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                        Pertanyaan Umum
                     </p>
                 </div>
             </motion.div>
@@ -164,7 +179,8 @@ function StickyVisual({ activeColor }: { activeColor: string }) {
 export default function FAQSection({ faqs }: FAQSectionProps) {
     const [openId, setOpenId] = useState<number | null>(faqs[0]?.id ?? null);
 
-    const activeColor = faqs.find((faq) => faq.id === openId)?.color ?? '#8b5cf6';
+    const activeColor =
+        faqs.find((faq) => faq.id === openId)?.color ?? '#8b5cf6';
 
     const handleToggle = (id: number) => {
         setOpenId(openId === id ? null : id);
@@ -184,10 +200,10 @@ export default function FAQSection({ faqs }: FAQSectionProps) {
                     transition={{ duration: 0.6 }}
                     className="mb-12 text-center lg:mb-16"
                 >
-                    <span className="mb-3 inline-block font-mono text-xs uppercase tracking-widest text-primary sm:mb-4">
+                    <span className="mb-3 inline-block font-mono text-xs tracking-widest text-primary uppercase sm:mb-4">
                         {'// QUESTIONS'}
                     </span>
-                    <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl md:text-4xl lg:text-5xl">
                         Frequently <span className="text-gradient">Asked</span>
                     </h2>
                 </motion.div>

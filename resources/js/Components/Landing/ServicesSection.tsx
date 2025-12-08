@@ -118,8 +118,9 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                         What We <span className="text-gradient">Deliver</span>
                     </h2>
                     <p className="mx-auto max-w-2xl font-mono text-sm text-muted-foreground sm:text-base">
-                        Five core offerings. Infinite possibilities. Each
-                        solution engineered for maximum impact and scalability.
+                        Setiap solusi kami rancang untuk memberikan impact
+                        maksimal dan skalabilitas jangka panjang bagi bisnis
+                        Anda.
                     </p>
                 </motion.div>
 
@@ -221,8 +222,9 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                                     </span>
                                 </h3>
                                 <p className="mb-6 max-w-xl font-mono text-sm text-muted-foreground">
-                                    Transform your vision into a digital
-                                    masterpiece. We're ready when you are.
+                                    Transformasi visi menjadi solusi digital
+                                    berkualitas tinggi. Tim kami siap
+                                    merealisasikannya.
                                 </p>
                                 <motion.button
                                     onClick={scrollToContact}

@@ -373,7 +373,7 @@ export default function TestimonialsSection({
                 <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-16 bg-gradient-to-r from-background to-transparent sm:w-32" />
                 <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-background to-transparent sm:w-32" />
 
-                <div className="no-scrollbar flex justify-center gap-4 overflow-x-auto px-8 py-4 sm:gap-6 lg:gap-8">
+                <div className="no-scrollbar flex justify-start gap-4 overflow-x-auto px-8 py-4 sm:gap-6 lg:justify-center lg:gap-8">
                     {videoTestimonials.map((testimonial, index) => (
                         <VideoCard
                             key={testimonial.id}

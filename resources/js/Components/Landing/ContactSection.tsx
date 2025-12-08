@@ -12,6 +12,7 @@ import {
     Mail,
     MapPin,
     MessageCircle,
+    MessageSquareMore,
     Phone,
     Rocket,
     Send,
@@ -33,6 +34,7 @@ interface FormData {
     service: ServiceType;
     budget: BudgetType;
     contact: string;
+    name: string;
 }
 
 const services = [
@@ -50,7 +52,7 @@ const budgets = [
 ];
 
 // WhatsApp number - replace with actual number
-const WHATSAPP_NUMBER = '6281234567890';
+const WHATSAPP_NUMBER = '6285966688711';
 
 function StepIndicator({
     currentStep,
@@ -223,7 +225,7 @@ function BudgetStep({
     );
 }
 
-function ContactStep({
+function ContactStep1({
     value,
     onChange,
 }: {
@@ -245,11 +247,44 @@ function ContactStep({
                     type="text"
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
-                    placeholder="Email or WhatsApp number"
+                    placeholder="WhatsApp number 62xxx"
                     className="w-full rounded-xl border border-border/50 bg-card/50 px-4 py-4 font-mono text-sm text-foreground placeholder-muted-foreground transition-all duration-300 focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20 focus:outline-none"
                 />
                 <div className="absolute inset-y-0 right-4 flex items-center">
-                    <Mail className="h-5 w-5 text-muted-foreground" />
+                    <MessageSquareMore className="h-5 w-5 text-muted-foreground" />
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+function ContactStep2({
+    value,
+    onChange,
+}: {
+    value: string;
+    onChange: (value: string) => void;
+}) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+        >
+            <h3 className="mb-6 text-center text-xl font-semibold text-foreground sm:text-2xl">
+                Your name...
+            </h3>
+            <div className="relative">
+                <input
+                    type="text"
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                    placeholder="Your name"
+                    className="w-full rounded-xl border border-border/50 bg-card/50 px-4 py-4 font-mono text-sm text-foreground placeholder-muted-foreground transition-all duration-300 focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                />
+                <div className="absolute inset-y-0 right-4 flex items-center">
+                    <Send className="h-5 w-5 text-muted-foreground" />
                 </div>
             </div>
         </motion.div>
@@ -449,6 +484,7 @@ export default function ContactSection() {
         service: null,
         budget: null,
         contact: '',
+        name: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -457,6 +493,8 @@ export default function ContactSection() {
         if (step === 0) return formData.service !== null;
         if (step === 1) return formData.budget !== null;
         if (step === 2) return formData.contact.length > 0;
+        if (step === 3) return formData.name.length > 0;
+
         return false;
     };
 
@@ -507,7 +545,7 @@ export default function ContactSection() {
                             <>
                                 <StepIndicator
                                     currentStep={step}
-                                    totalSteps={3}
+                                    totalSteps={4}
                                 />
 
                                 <AnimatePresence mode="wait">
@@ -536,13 +574,25 @@ export default function ContactSection() {
                                         />
                                     )}
                                     {step === 2 && (
-                                        <ContactStep
+                                        <ContactStep1
                                             key="contact"
                                             value={formData.contact}
                                             onChange={(contact) =>
                                                 setFormData({
                                                     ...formData,
                                                     contact,
+                                                })
+                                            }
+                                        />
+                                    )}
+                                    {step === 3 && (
+                                        <ContactStep2
+                                            key="name"
+                                            value={formData.name}
+                                            onChange={(name) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    name,
                                                 })
                                             }
                                         />
@@ -560,7 +610,7 @@ export default function ContactSection() {
                                         Back
                                     </button>
 
-                                    {step < 2 ? (
+                                    {step < 3 ? (
                                         <motion.button
                                             onClick={() => setStep(step + 1)}
                                             disabled={!canProceed()}
@@ -639,7 +689,7 @@ export default function ContactSection() {
                             <motion.button
                                 onClick={handleSubmit}
                                 disabled={
-                                    !canProceed() || step !== 2 || isSubmitting
+                                    !canProceed() || step !== 3 || isSubmitting
                                 }
                                 className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-primary to-accent py-5 font-mono text-lg font-semibold tracking-wider text-primary-foreground uppercase transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-30 sm:py-6"
                                 whileHover={{ scale: 1.01 }}

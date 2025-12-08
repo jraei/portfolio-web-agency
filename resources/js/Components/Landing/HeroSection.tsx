@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function HeroSection() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -48,35 +48,38 @@ export default function HeroSection() {
     }, [isMobile, mouseX, mouseY]);
 
     // Mouse move handler
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        if (!containerRef.current || isMobile) return;
+    const handleMouseMove = useCallback(
+        (e: MouseEvent) => {
+            if (!containerRef.current || isMobile) return;
 
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
+            const rect = containerRef.current.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
 
-        mouseX.set(x);
-        mouseY.set(y);
+            mouseX.set(x);
+            mouseY.set(y);
 
-        // Magnetic button effect
-        if (buttonRef.current) {
-            const buttonRect = buttonRef.current.getBoundingClientRect();
-            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
-            const distanceX = e.clientX - buttonCenterX;
-            const distanceY = e.clientY - buttonCenterY;
-            const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+            // Magnetic button effect
+            if (buttonRef.current) {
+                const buttonRect = buttonRef.current.getBoundingClientRect();
+                const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+                const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+                const distanceX = e.clientX - buttonCenterX;
+                const distanceY = e.clientY - buttonCenterY;
+                const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
 
-            if (distance < 150) {
-                const pull = (150 - distance) / 150;
-                buttonX.set(distanceX * pull * 0.3);
-                buttonY.set(distanceY * pull * 0.3);
-            } else {
-                buttonX.set(0);
-                buttonY.set(0);
+                if (distance < 150) {
+                    const pull = (150 - distance) / 150;
+                    buttonX.set(distanceX * pull * 0.3);
+                    buttonY.set(distanceY * pull * 0.3);
+                } else {
+                    buttonX.set(0);
+                    buttonY.set(0);
+                }
             }
-        }
-    }, [isMobile, mouseX, mouseY, buttonX, buttonY]);
+        },
+        [isMobile, mouseX, mouseY, buttonX, buttonY],
+    );
 
     useEffect(() => {
         window.addEventListener('mousemove', handleMouseMove);
@@ -98,10 +101,10 @@ export default function HeroSection() {
             <div className="noise pointer-events-none absolute inset-0" />
 
             {/* Grid Background */}
-            <div className="absolute inset-0 bg-grid opacity-40" />
+            <div className="bg-grid absolute inset-0 opacity-40" />
 
             {/* Code Syntax Lines */}
-            <div className="absolute inset-0 bg-code-syntax opacity-30" />
+            <div className="bg-code-syntax absolute inset-0 opacity-30" />
 
             {/* Spotlight Effect */}
             <motion.div
@@ -118,7 +121,7 @@ export default function HeroSection() {
 
                 {/* Grid Reveal */}
                 <div
-                    className="absolute inset-0 spotlight-mask bg-grid opacity-80"
+                    className="spotlight-mask bg-grid absolute inset-0 opacity-80"
                     style={{
                         backgroundSize: '80px 80px',
                         backgroundImage: `
@@ -130,8 +133,11 @@ export default function HeroSection() {
             </motion.div>
 
             {/* Floating Orbs */}
-            <div className="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-cyber-violet/10 blur-3xl animate-drift" />
-            <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-electric-indigo/10 blur-3xl animate-drift" style={{ animationDelay: '-10s' }} />
+            <div className="animate-drift absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-cyber-violet/10 blur-3xl" />
+            <div
+                className="animate-drift absolute right-1/4 bottom-1/4 h-80 w-80 rounded-full bg-electric-indigo/10 blur-3xl"
+                style={{ animationDelay: '-10s' }}
+            />
 
             {/* Content Container */}
             <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -144,8 +150,8 @@ export default function HeroSection() {
                 >
                     <div className="glass inline-flex items-center gap-2 rounded-full border border-border px-4 py-2">
                         <Sparkles className="h-4 w-4 text-primary" />
-                        <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                            Digital Agency
+                        <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                            Website Agency
                         </span>
                     </div>
                 </motion.div>
@@ -157,10 +163,10 @@ export default function HeroSection() {
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="mb-6 text-center"
                 >
-                    <span className="block text-4xl font-bold uppercase tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+                    <span className="block text-4xl font-bold tracking-tight uppercase sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                         <span className="text-gradient">We Build</span>
                     </span>
-                    <span className="mt-2 block text-4xl font-bold uppercase tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+                    <span className="mt-2 block text-4xl font-bold tracking-tight text-foreground uppercase sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                         Digital Ecosystems
                     </span>
                 </motion.h1>
@@ -172,9 +178,11 @@ export default function HeroSection() {
                     transition={{ duration: 0.6, delay: 0.5 }}
                     className="mb-12 max-w-2xl text-center font-mono text-sm text-muted-foreground sm:text-base md:text-lg"
                 >
-                    <span className="text-primary">PBM Agency</span> — Crafting high-conversion{' '}
+                    <span className="text-primary">PBM Agency</span> — Crafting
+                    high-conversion{' '}
                     <span className="text-foreground">Landing Pages</span>,{' '}
-                    <span className="text-foreground">Company Profiles</span>, and{' '}
+                    <span className="text-foreground">Company Profiles</span>,
+                    and{' '}
                     <span className="text-foreground">E-Course Platforms</span>.
                 </motion.p>
 
@@ -189,7 +197,7 @@ export default function HeroSection() {
                         ref={buttonRef}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
-                        className="group relative overflow-hidden rounded-full bg-primary px-8 py-4 font-mono text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all duration-300 hover:glow-md"
+                        className="group hover:glow-md relative overflow-hidden rounded-full bg-primary px-8 py-4 font-mono text-sm font-semibold tracking-wider text-primary-foreground uppercase transition-all duration-300"
                     >
                         {/* Button Glow */}
                         <div className="absolute inset-0 bg-gradient-to-r from-cyber-violet via-electric-indigo to-cyber-violet opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -211,10 +219,14 @@ export default function HeroSection() {
                 >
                     <motion.div
                         animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
                         className="flex flex-col items-center gap-2"
                     >
-                        <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                        <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
                             Scroll
                         </span>
                         <div className="h-12 w-px bg-gradient-to-b from-primary to-transparent" />
