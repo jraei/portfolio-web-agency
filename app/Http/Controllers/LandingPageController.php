@@ -97,27 +97,7 @@ class LandingPageController extends Controller
                 'clientName' => 'Sarah Chen',
                 'role' => 'CEO, Nexus Finance',
             ],
-            [
-                'id' => 3,
-                'videoThumbnail' => '/images/testimonials/video-2.jpg',
-                'videoUrl' => '/storage/testimonials/videos/testimonial-2.mp4',
-                'clientName' => 'Marcus Rivera',
-                'role' => 'Founder, Meridian Academy',
-            ],
-            [
-                'id' => 4,
-                'videoThumbnail' => '/images/testimonials/video-3.jpg',
-                'videoUrl' => '/storage/testimonials/videos/testimonial-3.mp4',
-                'clientName' => 'Aisha Patel',
-                'role' => 'CTO, Pulse Commerce',
-            ],
-            [
-                'id' => 5,
-                'videoThumbnail' => '/images/testimonials/video-4.jpg',
-                'videoUrl' => '/storage/testimonials/videos/testimonial-4.mp4',
-                'clientName' => 'David Kim',
-                'role' => 'Product Lead, TechStart Inc',
-            ],
+
         ];
 
         $quoteTestimonials = [
