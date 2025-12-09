@@ -85,17 +85,17 @@ class LandingPageController extends Controller
         $videoTestimonials = [
             [
                 'id' => 1,
-                'videoThumbnail' => '/images/testimonials/video-1.jpg',
+                'videoThumbnail' => '/storage/testimonials/thumbnails/masdidi.png',
                 'videoUrl' => '/storage/testimonials/videos/didigrafis.mp4',
-                'clientName' => 'Sarah Chen',
-                'role' => 'CEO, Nexus Finance',
+                'clientName' => 'Didi Maulana',
+                'role' => 'Founder, Pondok Grafis',
             ],
             [
                 'id' => 2,
-                'videoThumbnail' => '/images/testimonials/video-1.jpg',
+                'videoThumbnail' => '/storage/testimonials/thumbnails/yuven.jpg',
                 'videoUrl' => '/storage/testimonials/videos/didigrafis.mp4',
-                'clientName' => 'Sarah Chen',
-                'role' => 'CEO, Nexus Finance',
+                'clientName' => 'Yuven Lie',
+                'role' => 'Founder, Editor Amplifier',
             ],
 
         ];
@@ -103,7 +103,7 @@ class LandingPageController extends Controller
         $quoteTestimonials = [
             [
                 'id' => 1,
-                'name' => 'Sarah Chen',
+                'name' => 'Didi Maulana',
                 'company' => 'Nexus Finance',
                 'role' => 'CEO',
                 'quote' => 'PBM transformed our vision into reality. The platform exceeded all expectations and drove 300% growth in user engagement.',

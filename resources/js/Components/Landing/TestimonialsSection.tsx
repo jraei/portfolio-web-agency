@@ -64,26 +64,24 @@ function VideoCard({
                 opacity: isOtherHovered ? 0.6 : 1,
             }}
         >
-            {/* Video Thumbnail Placeholder */}
-            <div
-                className="absolute inset-0 transition-all duration-500"
-                style={{
-                    background: `linear-gradient(135deg, hsl(270 95% 25%), hsl(250 100% 20%))`,
-                }}
-            >
-                {/* Grayscale overlay - removed on hover via parent */}
-                <motion.div
-                    className="absolute inset-0 bg-background/40"
-                    initial={{ opacity: 1 }}
-                    whileHover={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+            <div className="absolute inset-0">
+                <img
+                    src={testimonial.videoThumbnail}
+                    alt={`Testimonial from ${testimonial.clientName}`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+
+                {/* Fallback gradient jika gambar gagal load (opsional) atau overlay dasar */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </div>
 
-            {/* Person Silhouette Placeholder */}
-            <div className="absolute inset-0 flex items-end justify-center">
-                <div className="mb-8 h-2/3 w-3/4 rounded-t-full bg-foreground/5" />
-            </div>
+            {/* Grayscale overlay - removed on hover via parent */}
+            <motion.div
+                className="absolute inset-0 bg-background/20 backdrop-grayscale" // Ganti bg-background/40 dgn backdrop-grayscale untuk efek bw
+                initial={{ opacity: 1 }}
+                whileHover={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+            />
 
             {/* Play Button */}
             <motion.div
