@@ -10,6 +10,7 @@ interface Project {
     image: string;
     techStack: string[];
     color: string;
+    url?: string;
 }
 
 interface ProjectsSectionProps {
@@ -81,28 +82,15 @@ function ProjectCard({
                                             boxShadow: `inset 0 0 40px ${project.color}15`,
                                         }}
                                     >
-                                        {/* Placeholder Content */}
-                                        <div className="bg-grid-sm absolute inset-0 opacity-30" />
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <div
-                                                className="text-4xl font-bold tracking-widest uppercase opacity-20 sm:text-6xl"
-                                                style={{ color: project.color }}
-                                            >
-                                                {project.title.charAt(0)}
-                                            </div>
-                                        </div>
+                                        {/* Real Project Image */}
+                                        <img
+                                            src={project.image}
+                                            alt={`${project.title} screenshot`}
+                                            className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                                        />
 
-                                        {/* Fake UI Elements */}
-                                        <div className="absolute inset-x-4 top-4 flex gap-1.5 sm:inset-x-6 sm:top-6">
-                                            <div className="h-2 w-2 rounded-full bg-red-500/50 sm:h-3 sm:w-3" />
-                                            <div className="h-2 w-2 rounded-full bg-yellow-500/50 sm:h-3 sm:w-3" />
-                                            <div className="h-2 w-2 rounded-full bg-green-500/50 sm:h-3 sm:w-3" />
-                                        </div>
-
-                                        <div className="absolute right-4 bottom-4 left-4 space-y-2 sm:right-6 sm:bottom-6 sm:left-6">
-                                            <div className="h-2 w-3/4 rounded bg-foreground/10" />
-                                            <div className="h-2 w-1/2 rounded bg-foreground/10" />
-                                        </div>
+                                        {/* Optional: Overlay gradient untuk estetika jika gambar terlalu terang */}
+                                        {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" /> */}
                                     </div>
                                 </div>
 
@@ -157,8 +145,11 @@ function ProjectCard({
                         </div>
 
                         {/* View Project Button */}
-                        <button
-                            className="group/btn inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 sm:text-sm"
+                        <a
+                            className="group/btn inline-flex w-fit cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 sm:text-sm"
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             style={{
                                 backgroundColor: `${project.color}20`,
                                 borderColor: `${project.color}50`,
@@ -168,7 +159,7 @@ function ProjectCard({
                         >
                             View Project
                             <ExternalLink className="h-3 w-3 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 sm:h-4 sm:w-4" />
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -185,53 +176,60 @@ function MobileProjectCard({ project }: { project: Project }) {
             transition={{ duration: 0.6 }}
             className="w-[85vw] flex-shrink-0 snap-center sm:w-[70vw]"
         >
-            <div
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card"
+            <a // Bungkus div utama dengan anchor
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block overflow-hidden rounded-2xl border border-border bg-card transition-transform active:scale-95"
                 style={{
                     boxShadow: `0 15px 60px -15px ${project.color}30`,
                 }}
             >
-                {/* Solid Background */}
-                <div className="absolute inset-0 bg-card" />
+                <div
+                    className="group relative overflow-hidden rounded-2xl border border-border bg-card"
+                    style={{
+                        boxShadow: `0 15px 60px -15px ${project.color}30`,
+                    }}
+                >
+                    {/* Solid Background */}
+                    <div className="absolute inset-0 bg-card" />
 
-                {/* Mockup */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-muted/50 to-background">
-                    <div className="absolute inset-4 flex items-center justify-center">
-                        <div
-                            className="text-5xl font-bold tracking-widest uppercase opacity-20"
+                    {/* Mockup */}
+                    <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-muted/50 to-background">
+                        <img
+                            src={project.image}
+                            alt={`${project.title} screenshot`}
+                            className="h-full w-full object-cover object-top"
+                        />
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative bg-card p-5">
+                        <span
+                            className="mb-2 inline-block font-mono text-xs tracking-widest uppercase"
                             style={{ color: project.color }}
                         >
-                            {project.title.charAt(0)}
+                            {project.category}
+                        </span>
+                        <h3 className="mb-3 text-xl font-bold tracking-tight text-foreground uppercase">
+                            {project.title}
+                        </h3>
+                        <p className="mb-4 line-clamp-2 font-mono text-xs leading-relaxed text-muted-foreground">
+                            {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                            {project.techStack.slice(0, 3).map((tech) => (
+                                <span
+                                    key={tech}
+                                    className="rounded-full border border-border bg-background/80 px-2.5 py-1 font-mono text-xs text-foreground"
+                                >
+                                    {tech}
+                                </span>
+                            ))}
                         </div>
                     </div>
                 </div>
-
-                {/* Content */}
-                <div className="relative bg-card p-5">
-                    <span
-                        className="mb-2 inline-block font-mono text-xs tracking-widest uppercase"
-                        style={{ color: project.color }}
-                    >
-                        {project.category}
-                    </span>
-                    <h3 className="mb-3 text-xl font-bold tracking-tight text-foreground uppercase">
-                        {project.title}
-                    </h3>
-                    <p className="mb-4 line-clamp-2 font-mono text-xs leading-relaxed text-muted-foreground">
-                        {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                        {project.techStack.slice(0, 3).map((tech) => (
-                            <span
-                                key={tech}
-                                className="rounded-full border border-border bg-background/80 px-2.5 py-1 font-mono text-xs text-foreground"
-                            >
-                                {tech}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            </a>
         </motion.div>
     );
 }
@@ -305,7 +303,10 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
     // Mobile: Horizontal snap scroll
     return (
-        <section id="projects" className="relative bg-background py-16 sm:py-20">
+        <section
+            id="projects"
+            className="relative bg-background py-16 sm:py-20"
+        >
             {/* Background */}
             <div className="noise pointer-events-none absolute inset-0" />
 

@@ -151,7 +151,7 @@ export default function HeroSection() {
                     <div className="glass inline-flex items-center gap-2 rounded-full border border-border px-4 py-2">
                         <Sparkles className="h-4 w-4 text-primary" />
                         <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-                            Website Agency
+                            Digital Agency
                         </span>
                     </div>
                 </motion.div>
@@ -178,12 +178,9 @@ export default function HeroSection() {
                     transition={{ duration: 0.6, delay: 0.5 }}
                     className="mb-12 max-w-2xl text-center font-mono text-sm text-muted-foreground sm:text-base md:text-lg"
                 >
-                    <span className="text-primary">PBM Agency</span> — Crafting
-                    high-conversion{' '}
-                    <span className="text-foreground">Landing Pages</span>,{' '}
-                    <span className="text-foreground">Company Profiles</span>,
-                    and{' '}
-                    <span className="text-foreground">E-Course Platforms</span>.
+                    <span className="text-primary">PBM Agency</span> — crafting
+                    high-performance web solutions designed to maximize your
+                    revenue and business scalability.
                 </motion.p>
 
                 {/* CTA Button - Magnetic */}

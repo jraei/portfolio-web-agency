@@ -222,9 +222,9 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                                     </span>
                                 </h3>
                                 <p className="mb-6 max-w-xl font-mono text-sm text-muted-foreground">
-                                    Transformasi visi menjadi solusi digital
-                                    berkualitas tinggi. Tim kami siap
-                                    merealisasikannya.
+                                    Ceritakan ide atau kebutuhan bisnis Anda.
+                                    Tim kami siap berdiskusi untuk menemukan
+                                    solusi terbaik bagi Anda
                                 </p>
                                 <motion.button
                                     onClick={scrollToContact}

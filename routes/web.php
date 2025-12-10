@@ -13,4 +13,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-require __DIR__.'/settings.php';
+Route::post('/contact-inquiry', [LandingPageController::class, 'sendInquiry'])->name('contact.inquiry');
+
+require __DIR__ . '/settings.php';

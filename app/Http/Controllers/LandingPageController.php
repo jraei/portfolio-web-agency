@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Mail\ProjectInquiryMail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
 {
@@ -30,7 +34,7 @@ class LandingPageController extends Controller
                 'id' => 3,
                 'title' => 'E-Course Platform',
                 'subtitle' => 'Learning Systems',
-                'description' => 'Platform edukasi yang scalable, lengkap dengan fitur pelacakan progres siswa, kurikulum terstruktur, hingga integrasi pembayaran yang seamless.',
+                'description' => 'Platform edukasi yang scalable, lengkap dengan fitur pelacakan progres siswa, kurikulum terstruktur, hingga integrasi pembayaran yang lengkap.',
                 'icon' => 'GraduationCap',
                 'metrics' => ['LMS Ready', 'Payment Gateway', 'Analytics'],
             ],
@@ -55,30 +59,43 @@ class LandingPageController extends Controller
         $projects = [
             [
                 'id' => 1,
-                'title' => 'Nexus Finance',
-                'category' => 'Fintech Platform',
-                'description' => 'A comprehensive financial dashboard with real-time analytics and portfolio management.',
-                'image' => '/images/projects/project-1.jpg',
-                'techStack' => ['Laravel', 'React', 'PostgreSQL', 'Redis'],
+                'title' => 'Pondok Grafis',
+                'category' => 'E-Learning Platform',
+                'description' => 'Platform pembelajaran canva dengan design premium dan professional.',
+                'image' => '/storage/projects/pondokgrafis.png',
+                'techStack' => ['React', 'Laravel', 'Inertia', 'Tailwind v4'],
                 'color' => '#6366f1',
+                'url' => 'https://pondokgrafis.id',
             ],
             [
                 'id' => 2,
-                'title' => 'Meridian Academy',
+                'title' => 'Gumpreneur Masterclass',
                 'category' => 'E-Learning Platform',
-                'description' => 'Interactive learning platform serving 50,000+ students with adaptive course delivery.',
-                'image' => '/images/projects/project-2.jpg',
-                'techStack' => ['Next.js', 'Node.js', 'MongoDB', 'AWS'],
+                'description' => 'Ekosistem belajar bagi konten kreator dengan kurikulum yang terstruktur.',
+                'image' => '/storage/projects/gumpreneur.png',
+                'techStack' => ['React', 'Laravel', 'Inertia', 'MySQL'],
                 'color' => '#8b5cf6',
+                'url' => 'https://gumpreneur.id',
             ],
             [
                 'id' => 3,
-                'title' => 'Pulse Commerce',
+                'title' => 'Naelstore Top Up',
                 'category' => 'E-Commerce Solution',
-                'description' => 'High-performance marketplace handling 10,000+ daily transactions with sub-second load times.',
-                'image' => '/images/projects/project-3.jpg',
-                'techStack' => ['Vue.js', 'Laravel', 'MySQL', 'Stripe'],
+                'description' => 'Platform top-up game otomatis berbasis e-commerce untuk transaksi skala besar yang cepat dan aman.',
+                'image' => '/storage/projects/naelstore.png',
+                'techStack' => ['Vue.js', 'Laravel', 'Inertia', 'MySQL'],
                 'color' => '#a855f7',
+                'url' => 'https://naelstore.id',
+            ],
+            [
+                'id' => 3,
+                'title' => 'Tinped SMM Service',
+                'category' => 'E-Commerce Solution',
+                'description' => 'Panel SMM auto-pilot dengan sistem transaksi otomatis untuk mengelola ribuan layanan media sosial secara real-time.',
+                'image' => '/storage/projects/tinped.png',
+                'techStack' => ['Blade', 'Laravel', 'Livewire', 'MySQL'],
+                'color' => '#a855f7',
+                'url' => 'https://tinped.com',
             ],
         ];
 
@@ -92,7 +109,7 @@ class LandingPageController extends Controller
             ],
             [
                 'id' => 2,
-                'videoThumbnail' => '/images/testimonials/thumbnails/yuven.jpg',
+                'videoThumbnail' => '/storage/testimonials/thumbnails/yuven.jpg',
                 'videoUrl' => '/storage/testimonials/videos/yuven.mp4',
                 'clientName' => 'Yuven Lie',
                 'role' => 'Founder, Editor Amplifier',
@@ -114,7 +131,15 @@ class LandingPageController extends Controller
                 'name' => 'Yuven Lie',
                 'company' => 'Editor Amplifier',
                 'role' => 'Founder',
-                'quote' => 'Working with PBM was seamless. They understood our educational mission and built a platform that serves 50,000+ students daily.',
+                'quote' => 'Gw puas banget sama hasil kerja pbm agency. Gw yakin gak bakal ada yang secepat, sebagus dan senyaman sama mereka',
+                'avatar' => '/images/avatars/avatar-2.jpg',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Ruben Nathanael',
+                'company' => 'Naelstore',
+                'role' => 'Business Owner',
+                'quote' => 'Pengalaman saya memakai jasa PBM ini overall memuaskan karena disediakan free maintenance, fitur yang jauh lebih lengkap dibanding harga yang ditawarkan, revisi yang nggak pelit, serta pelayanan yang cukup sabar selama prosesnya',
                 'avatar' => '/images/avatars/avatar-2.jpg',
             ],
 
@@ -124,14 +149,14 @@ class LandingPageController extends Controller
             [
                 'id' => 1,
                 'question' => 'Berapa lama waktu pengerjaan proyek?',
-                'answer' => 'Durasi proyek bervariasi tergantung kompleksitasnya. Landing Page biasanya membutuhkan 2-3 minggu, Company Profile 4-6 minggu, dan platform E-Course 8-12 minggu. Kami akan memberikan timeline detail saat sesi konsultasi awal.',
+                'answer' => 'Durasi proyek bervariasi tergantung kompleksitasnya. Landing Page biasanya membutuhkan 3-7 hari, Company Profile 1-3 minggu, dan platform E-Course 2-4 minggu. Kami akan memberikan timeline detail saat sesi konsultasi awal.',
                 'category' => 'timeline',
                 'color' => '#22c55e',
             ],
             [
                 'id' => 2,
                 'question' => 'Teknologi apa yang Anda gunakan?',
-                'answer' => 'Kami spesialis dalam teknologi web modern: Laravel & React untuk aplikasi full-stack yang handal, dan Vue.js untuk antarmuka interaktif. Semua proyek sudah mencakup desain responsif, optimasi SEO, dan gratis SSL.',
+                'answer' => 'Kami spesialis dalam teknologi web modern: Laravel & React untuk aplikasi full-stack yang cepat. Semua proyek sudah mencakup desain responsif, optimasi SEO, dan gratis SSL.',
                 'category' => 'tech',
                 'color' => '#3b82f6',
             ],
@@ -165,5 +190,38 @@ class LandingPageController extends Controller
             'quoteTestimonials' => $quoteTestimonials,
             'faqs' => $faqs,
         ]);
+    }
+
+    public function sendInquiry(Request $request)
+    {
+        // 1. Validasi Input
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'contact' => 'required|string',
+            'service' => 'required|string',
+            'budget' => 'required|string',
+        ]);
+
+        // 2. Mapping Label Budget (Biar di email enak dibaca)
+        $budgetLabels = [
+            'small' => '< 5 Jt (Starter)',
+            'medium' => '5-15 Jt (Growth)',
+            'large' => '> 15 Jt (Enterprise)',
+        ];
+
+        $data = $validated;
+        $data['budget_label'] = $budgetLabels[$validated['budget']] ?? $validated['budget'];
+
+        try {
+            // 3. Kirim Email ke Admin (Ambil dari config atau hardcode sementara)
+            $adminEmail = env('ADMIN_EMAIL'); // Atau 'pbmagency@gmail.com'
+
+            Mail::to($adminEmail)->send(new ProjectInquiryMail($data));
+
+            return back()->with('success', 'Email sent successfully');
+        } catch (\Exception $e) {
+            Log::error("Contact Email Error: " . $e->getMessage());
+            return back()->with('error', 'Email failed to send');
+        }
     }
 }

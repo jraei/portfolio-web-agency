@@ -67,7 +67,7 @@ export default function Welcome({
 }: WelcomeProps) {
     return (
         <>
-            <Head title="PBM Agency - We Build Digital Ecosystems">
+            <Head title="PBM Agency">
                 <meta
                     name="description"
                     content="PBM Agency crafts high-conversion Landing Pages, Company Profiles, E-Course Platforms, E-Commerce, and Custom Web Applications. We build digital ecosystems that drive results."

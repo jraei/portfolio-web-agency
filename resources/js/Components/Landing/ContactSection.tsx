@@ -1,3 +1,4 @@
+import { useForm } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
     ArrowLeft,
@@ -5,19 +6,15 @@ import {
     Building2,
     Check,
     Code2,
-    Github,
     GraduationCap,
     Instagram,
-    Linkedin,
     Mail,
     MapPin,
     MessageCircle,
     MessageSquareMore,
-    Phone,
     Rocket,
     Send,
     ShoppingCart,
-    Twitter,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -46,13 +43,13 @@ const services = [
 ];
 
 const budgets = [
-    { id: 'small' as const, label: '< 5M', description: 'Starter' },
-    { id: 'medium' as const, label: '5-15M', description: 'Growth' },
-    { id: 'large' as const, label: '> 15M', description: 'Enterprise' },
+    { id: 'small' as const, label: '< 5 Jt', description: 'Starter' },
+    { id: 'medium' as const, label: '5-15 Jt', description: 'Growth' },
+    { id: 'large' as const, label: '> 15 Jt', description: 'Enterprise' },
 ];
 
 // WhatsApp number - replace with actual number
-const WHATSAPP_NUMBER = '6285966688711';
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
 
 function StepIndicator({
     currentStep,
@@ -298,7 +295,13 @@ function SuccessState({ formData }: { formData: FormData }) {
         const budgetLabel =
             budgets.find((b) => b.id === formData.budget)?.label || '';
         const message = encodeURIComponent(
-            `Hi! I just submitted a project inquiry for a ${serviceLabel} with a budget of ${budgetLabel}. I'd love to discuss this further!`,
+            `Halo Admin PBM Agency,
+
+Saya baru saja mengirim inquiry via website untuk project *${serviceLabel}*.
+• Budget: ${budgetLabel}
+• Nama: ${formData.name}
+
+Boleh diskusi lebih lanjut mengenai detailnya? Terima kasih.`,
         );
         window.open(
             `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
@@ -352,16 +355,22 @@ function SuccessState({ formData }: { formData: FormData }) {
 
 function Footer() {
     const socialLinks = [
-        { icon: Github, href: '#', label: 'GitHub' },
-        { icon: Twitter, href: '#', label: 'Twitter' },
-        { icon: Linkedin, href: '#', label: 'LinkedIn' },
-        { icon: Instagram, href: '#', label: 'Instagram' },
+        {
+            icon: Instagram,
+            href: 'http://instagram.com/pbmagency.id',
+            label: 'Instagram',
+        },
+        {
+            icon: Whatsapp,
+            href: 'https://wa.me/' + WHATSAPP_NUMBER,
+            label: 'Whatsapp',
+        },
     ];
 
     return (
         <footer className="border-t border-border/30 bg-background backdrop-blur-xl">
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-1">
                         <h3 className="mb-4 text-2xl font-bold text-foreground">
@@ -376,6 +385,7 @@ function Footer() {
                                 <a
                                     key={link.label}
                                     href={link.href}
+                                    target="_blank"
                                     className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-background/50 text-muted-foreground transition-all duration-300 hover:border-primary hover:text-primary"
                                     aria-label={link.label}
                                 >
@@ -386,7 +396,7 @@ function Footer() {
                     </div>
 
                     {/* Quick Links */}
-                    <div>
+                    <div className="lg:mx-auto">
                         <h4 className="mb-4 font-mono text-xs tracking-widest text-foreground uppercase">
                             Services
                         </h4>
@@ -411,7 +421,7 @@ function Footer() {
                     </div>
 
                     {/* Company */}
-                    <div>
+                    {/* <div>
                         <h4 className="mb-4 font-mono text-xs tracking-widest text-foreground uppercase">
                             Company
                         </h4>
@@ -432,21 +442,21 @@ function Footer() {
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </div> */}
 
                     {/* Contact */}
-                    <div>
+                    <div className="lg:mx-auto">
                         <h4 className="mb-4 font-mono text-xs tracking-widest text-foreground uppercase">
                             Contact
                         </h4>
                         <ul className="space-y-3">
                             <li className="flex items-center gap-3 font-mono text-sm text-muted-foreground">
                                 <Mail className="h-4 w-4 text-primary" />
-                                hello@pbmagency.com
+                                agencypbm@gmail.com
                             </li>
                             <li className="flex items-center gap-3 font-mono text-sm text-muted-foreground">
-                                <Phone className="h-4 w-4 text-primary" />
-                                +62 812 3456 7890
+                                <Whatsapp className="h-4 w-4 text-primary" />
+                                +62 859 6668 8711
                             </li>
                             <li className="flex items-start gap-3 font-mono text-sm text-muted-foreground">
                                 <MapPin className="h-4 w-4 flex-shrink-0 text-primary" />
@@ -459,7 +469,7 @@ function Footer() {
                 {/* Bottom Bar */}
                 <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/30 pt-8 sm:flex-row">
                     <p className="font-mono text-xs text-muted-foreground">
-                        © 2024 PBM Agency. All rights reserved.
+                        © 2026 PBM Agency. All rights reserved.
                     </p>
                     <div className="flex gap-6">
                         {['Privacy Policy', 'Terms of Service'].map((item) => (
@@ -480,30 +490,40 @@ function Footer() {
 
 export default function ContactSection() {
     const [step, setStep] = useState(0);
-    const [formData, setFormData] = useState<FormData>({
-        service: null,
-        budget: null,
-        contact: '',
-        name: '',
-    });
+    const { data, setData, post, processing, errors, reset } =
+        useForm<FormData>({
+            service: null,
+            budget: null,
+            contact: '',
+            name: '',
+        });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const canProceed = () => {
-        if (step === 0) return formData.service !== null;
-        if (step === 1) return formData.budget !== null;
-        if (step === 2) return formData.contact.length > 0;
-        if (step === 3) return formData.name.length > 0;
-
+        if (step === 0) return data.service !== null;
+        if (step === 1) return data.budget !== null;
+        if (step === 2) return data.contact.length > 0;
+        if (step === 3) return data.name.length > 0;
         return false;
     };
 
-    const handleSubmit = async () => {
-        setIsSubmitting(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        post('/contact-inquiry', {
+            preserveScroll: true,
+            onSuccess: () => {
+                setIsSubmitted(true);
+                // reset();
+            },
+            onError: (errors) => {
+                console.error('Form errors:', errors);
+                alert(
+                    'Gagal mengirim data. Silakan cek koneksi atau input Anda.',
+                );
+            },
+        });
     };
 
     return (
@@ -528,8 +548,8 @@ export default function ContactSection() {
                             {'// START A PROJECT'}
                         </span>
                         <h2 className="text-2xl font-bold tracking-tight text-foreground uppercase sm:text-3xl md:text-4xl lg:text-5xl">
-                            Let's <span className="text-gradient">Build</span>{' '}
-                            Together
+                            Let's{' '}
+                            <span className="text-gradient">Collaborate</span>
                         </h2>
                     </motion.div>
 
@@ -552,48 +572,36 @@ export default function ContactSection() {
                                     {step === 0 && (
                                         <ServiceStep
                                             key="service"
-                                            selected={formData.service}
+                                            selected={data.service}
                                             onSelect={(service) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    service,
-                                                })
+                                                setData('service', service)
                                             }
                                         />
                                     )}
                                     {step === 1 && (
                                         <BudgetStep
                                             key="budget"
-                                            selected={formData.budget}
+                                            selected={data.budget}
                                             onSelect={(budget) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    budget,
-                                                })
+                                                setData('budget', budget)
                                             }
                                         />
                                     )}
                                     {step === 2 && (
                                         <ContactStep1
                                             key="contact"
-                                            value={formData.contact}
-                                            onChange={(contact) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    contact,
-                                                })
+                                            value={data.contact}
+                                            onChange={(val) =>
+                                                setData('contact', val)
                                             }
                                         />
                                     )}
                                     {step === 3 && (
                                         <ContactStep2
                                             key="name"
-                                            value={formData.name}
-                                            onChange={(name) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    name,
-                                                })
+                                            value={data.name}
+                                            onChange={(val) =>
+                                                setData('name', val)
                                             }
                                         />
                                     )}
@@ -647,7 +655,7 @@ export default function ContactSection() {
                                                         : 1,
                                             }}
                                         >
-                                            {isSubmitting ? (
+                                            {processing ? (
                                                 <>
                                                     <motion.div
                                                         className="h-4 w-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground"
@@ -673,7 +681,7 @@ export default function ContactSection() {
                                 </div>
                             </>
                         ) : (
-                            <SuccessState formData={formData} />
+                            <SuccessState formData={data} />
                         )}
                     </motion.div>
 
@@ -689,7 +697,7 @@ export default function ContactSection() {
                             <motion.button
                                 onClick={handleSubmit}
                                 disabled={
-                                    !canProceed() || step !== 3 || isSubmitting
+                                    !canProceed() || step !== 3 || processing
                                 }
                                 className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-primary to-accent py-5 font-mono text-lg font-semibold tracking-wider text-primary-foreground uppercase transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-30 sm:py-6"
                                 whileHover={{ scale: 1.01 }}
@@ -720,3 +728,17 @@ export default function ContactSection() {
         </>
     );
 }
+
+// Whatsapp.tsx atau di file yang sama
+export const Whatsapp = (props: any) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        {...props}
+    >
+        <path d="M16.6 14c-.2-.1-1.5-.7-1.7-.8c-.2-.1-.4-.1-.6.1c-.2.2-.6.8-.8 1c-.1.2-.3.2-.5.1c-.7-.3-1.4-.7-2-1.2c-.5-.5-1-1.1-1.4-1.7c-.1-.2 0-.4.1-.5c.1-.1.2-.3.4-.4c.1-.1.2-.3.2-.4c.1-.1.1-.3 0-.4c-.1-.1-.6-1.3-.8-1.8c-.1-.7-.3-.7-.5-.7h-.5c-.2 0-.5.2-.6.3c-.6.6-.9 1.3-.9 2.1c.1.9.4 1.8 1 2.6c1.1 1.6 2.5 2.9 4.2 3.7c.5.2.9.4 1.4.5c.5.2 1 .2 1.6.1c.7-.1 1.3-.6 1.7-1.2c.2-.4.2-.8.1-1.2l-.4-.2m2.5-9.1C15.2 1 8.9 1 5 4.9c-3.2 3.2-3.8 8.1-1.6 12L2 22l5.3-1.4c1.5.8 3.1 1.2 4.7 1.2c5.5 0 9.9-4.4 9.9-9.9c.1-2.6-1-5.1-2.8-7m-2.7 14c-1.3.8-2.8 1.3-4.4 1.3c-1.5 0-2.9-.4-4.2-1.1l-.3-.2l-3.1.8l.8-3l-.2-.3c-2.4-4-1.2-9 2.7-11.5S16.6 3.7 19 7.5c2.4 3.9 1.3 9-2.6 11.4"></path>
+    </svg>
+);
